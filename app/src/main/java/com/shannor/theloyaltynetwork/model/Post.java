@@ -40,14 +40,24 @@ public class Post {
     }
 
     private String calculateTime(){
+        String timeOFDay;
+        String minute;
         Calendar cal = Calendar.getInstance();
+
         Integer Hour = cal.get(Calendar.AM_PM) + cal.get(Calendar.HOUR);
         Integer Minute =  cal.get(Calendar.MINUTE);
-        //TODO: Handle when minutes are below 10, doesnt show 07, just 7
-        if(cal.get(Calendar.HOUR_OF_DAY) > 12){
-            return Hour.toString() + ":" + Minute.toString() +" PM";
+        if(Minute < 10){
+            minute = "0" + Minute.toString();
+        }else{
+            minute = Minute.toString();
         }
-        return Hour.toString() + ":" + Minute.toString() + " AM";
+        if(cal.get(Calendar.HOUR_OF_DAY) > 12){
+            timeOFDay = " PM";
+        }else{
+            timeOFDay = " AM";
+        }
+
+        return Hour.toString() + ":" + minute + timeOFDay;
 
     }
 
