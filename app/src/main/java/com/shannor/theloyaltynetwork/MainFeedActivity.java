@@ -25,8 +25,6 @@ public class MainFeedActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     PostAdapter mPostAdapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +32,9 @@ public class MainFeedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //TODO:Added a view pager and tabs for multiple pages
+
+        //TODO:When pressing fab can make a new post
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
