@@ -9,6 +9,7 @@ import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**

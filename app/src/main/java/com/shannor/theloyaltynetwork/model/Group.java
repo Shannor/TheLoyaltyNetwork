@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class Group extends Entity {
         this.name = name;
         this.mission = mission;
         this.totalPointsEarned = 0;
-        this.postList = new LinkedList<>();
-        this.members = new LinkedList<>();
-        this.admins = new LinkedList<>();
-        this.followers = new LinkedList<>();
+        this.postList = new ArrayList<>();
+        this.members = new ArrayList<>();
+        this.admins = new ArrayList<>();
+        this.followers = new ArrayList<>();
     }
 
     public void addMember(List<User> newMembers){
