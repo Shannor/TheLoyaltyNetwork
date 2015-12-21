@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,13 +10,13 @@ import java.util.List;
  * This Class will most likely be expanded in the future
  */
 public class User extends Entity {
-    private List<Group> affiliations;
+    private List<Group> affiliations = new ArrayList<>();
 
     public User(String name){
         this.name = name;
         this.mission = null;
-        this.affiliations = new LinkedList<>();
-        this.postList = new LinkedList<>();
+        this.affiliations = new ArrayList<>();
+        this.postList = new ArrayList<>();
         this.totalPointsEarned = 0;
     }
 
