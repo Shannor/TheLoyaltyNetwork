@@ -36,7 +36,6 @@ public class MainFeedActivity extends AppCompatActivity {
 
         //TODO:Added a view pager and tabs for multiple pages
 
-        //TODO:When pressing fab can make a new post
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +83,7 @@ public class MainFeedActivity extends AppCompatActivity {
     }
 
     public void initPost(){
+        //TODO: May need to be Activity for result,also pass Current user
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }

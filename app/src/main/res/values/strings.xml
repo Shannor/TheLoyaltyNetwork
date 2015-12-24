@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">TheLoyaltyNetwork</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_create_post">CreatePostActivity</string>
+    <string name="title_activity_create_post">Share Your Thoughts</string>
+    <string name="post_title">Post Title</string>
+    <string name="post_body">Post Body</string>
+    <string name="btn_confirm">Post</string>
+    <string name="empty_text">Title or Body text is empty</string>
+    <string name="dialog_confirm">Fix It</string>
 </resources>

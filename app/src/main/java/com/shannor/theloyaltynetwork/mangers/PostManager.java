@@ -2,7 +2,6 @@ package com.shannor.theloyaltynetwork.mangers;
 
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,9 @@ public class PostManager {
 
     public void addPost(User user, String title, String body){
         Post post = new Post(user,title,body);
-        postList.add(post);
+        //TODO: When server is added make sure it adds to front
+        //Add to front
+        postList.add(0,post);
     }
     public List<Post> getPostList(){
         return postList;
