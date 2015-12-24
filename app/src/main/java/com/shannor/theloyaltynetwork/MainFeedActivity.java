@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 import com.shannor.theloyaltynetwork.views.PostAdapter;
@@ -22,7 +23,7 @@ import java.util.List;
 public class MainFeedActivity extends AppCompatActivity {
 
     List<User> userList = new ArrayList<>();
-    List<Post> postList = new ArrayList<>();
+    PostManager postManager = PostManager.getInstance();
     RecyclerView mRecyclerView;
     PostAdapter mPostAdapter;
 
@@ -48,14 +49,14 @@ public class MainFeedActivity extends AppCompatActivity {
         userList.add(new User("Father"));
         userList.add(new User("Mother"));
 
-        postList.add(new Post(userList.get(0),"Test Post","Body!!!!"));
-        postList.add(new Post(userList.get(1),"Test Post Number Two","Body!!!!"));
-        postList.add(new Post(userList.get(2),"Test Post Number Three","Body!!!!"));
+        postManager.addPost(userList.get(0),"Test Post","Body!!!!");
+        postManager.addPost(userList.get(1),"Test Post Number Two","Body!!!!");
+        postManager.addPost(userList.get(2),"Test Post Number Three","Body!!!!");
 
         mRecyclerView = (RecyclerView)findViewById(R.id.mainFeed);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mPostAdapter = new PostAdapter(postList);
+        mPostAdapter = new PostAdapter(postManager.getPostList());
         mRecyclerView.setAdapter(mPostAdapter);
 
     }
