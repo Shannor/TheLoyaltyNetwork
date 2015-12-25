@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -46,18 +47,26 @@ public class Post {
 
         Integer Hour = cal.get(Calendar.AM_PM) + cal.get(Calendar.HOUR);
         Integer Minute =  cal.get(Calendar.MINUTE);
-        if(Minute < 10){
+
+        //Adding zero if single digit time
+        if (Minute < 10){
             minute = "0" + Minute.toString();
-        }else{
+        }else {
             minute = Minute.toString();
         }
-        if(cal.get(Calendar.HOUR_OF_DAY) > 12){
+        //AM or PM check
+        if (cal.get(Calendar.HOUR_OF_DAY) > 12){
             timeOFDay = " PM";
-        }else{
+        }else {
             timeOFDay = " AM";
+        }
+        //Midnight edge case
+        if (Hour == 0){
+            Hour = 12;
         }
 
         return Hour.toString() + ":" + minute + timeOFDay;
+
 
     }
 
