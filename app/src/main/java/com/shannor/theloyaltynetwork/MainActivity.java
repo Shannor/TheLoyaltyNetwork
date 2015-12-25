@@ -26,7 +26,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<User> userList = new ArrayList<>();
     ViewPager mViewPager;
     TabLayout mTabLayout;
 

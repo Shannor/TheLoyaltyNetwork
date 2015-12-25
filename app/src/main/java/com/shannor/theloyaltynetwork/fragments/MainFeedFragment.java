@@ -1,7 +1,5 @@
 package com.shannor.theloyaltynetwork.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,14 +12,6 @@ import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.views.PostAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainFeedFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainFeedFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainFeedFragment extends Fragment {
 
     RecyclerView mRecyclerView;
@@ -35,19 +25,12 @@ public class MainFeedFragment extends Fragment {
 
     // TODO: Rename and change types and number of parameters
     public static MainFeedFragment newInstance() {
-        MainFeedFragment fragment = new MainFeedFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-        return fragment;
+        return new MainFeedFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
@@ -56,6 +39,7 @@ public class MainFeedFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_main_feed, container, false);
+        mPostManager.createTestPosts(6);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mainFeed);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

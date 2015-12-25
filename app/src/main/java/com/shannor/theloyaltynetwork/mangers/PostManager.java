@@ -30,6 +30,14 @@ public class PostManager {
         //Add to front
         postList.add(0,post);
     }
+    public void createTestPosts(int amount){
+        if (postList.isEmpty()){
+            for(int i = 0; i < amount; i++) {
+                addPost(new User("Test"+i),"Title"+i, "Body!"+i);
+            }
+        }
+    }
+
     public List<Post> getPostList(){
         return postList;
     }
