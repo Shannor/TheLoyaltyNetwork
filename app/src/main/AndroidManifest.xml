@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainFeedActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,11 +21,11 @@
         <activity
             android:name=".CreatePostActivity"
             android:label="@string/title_activity_create_post"
-            android:parentActivityName=".MainFeedActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.shannor.theloyaltynetwork.MainFeedActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 

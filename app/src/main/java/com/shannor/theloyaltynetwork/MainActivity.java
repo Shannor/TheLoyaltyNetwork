@@ -24,7 +24,7 @@ import com.shannor.theloyaltynetwork.views.PostAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFeedActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     List<User> userList = new ArrayList<>();
     ViewPager mViewPager;

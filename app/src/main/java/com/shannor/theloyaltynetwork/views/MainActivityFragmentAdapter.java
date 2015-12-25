@@ -13,7 +13,7 @@ import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
 
         String[] fragmentTitles = {
-                "Feed"
+                "Main Feed"
         };
 
         public MainActivityFragmentAdapter(FragmentManager fm) {
