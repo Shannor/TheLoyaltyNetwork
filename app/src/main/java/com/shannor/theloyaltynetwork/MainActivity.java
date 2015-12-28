@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,31 +13,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewParent;
 
+import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
+import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 import com.shannor.theloyaltynetwork.views.PostAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFeedActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    List<User> userList = new ArrayList<>();
-    List<Post> postList = new ArrayList<>();
-    RecyclerView mRecyclerView;
-    PostAdapter mPostAdapter;
+    ViewPager mViewPager;
+    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        mTabLayout = (TabLayout)findViewById(R.id.fragment_tabs);
 
-        //TODO:Added a view pager and tabs for multiple pages
+        MainActivityFragmentAdapter mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mainActivityFragmentAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        //TODO:When pressing fab can make a new post
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,21 +50,6 @@ public class MainFeedActivity extends AppCompatActivity {
                 initPost();
             }
         });
-
-        userList.add(new User("Shannor"));
-        userList.add(new User("Father"));
-        userList.add(new User("Mother"));
-
-        postList.add(new Post(userList.get(0),"Test Post","Body!!!!"));
-        postList.add(new Post(userList.get(1),"Test Post Number Two","Body!!!!"));
-        postList.add(new Post(userList.get(2),"Test Post Number Three","Body!!!!"));
-
-        mRecyclerView = (RecyclerView)findViewById(R.id.mainFeed);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mPostAdapter = new PostAdapter(postList);
-        mRecyclerView.setAdapter(mPostAdapter);
-
     }
 
     @Override
@@ -83,6 +75,7 @@ public class MainFeedActivity extends AppCompatActivity {
     }
 
     public void initPost(){
+        //TODO: May need to be Activity for result,also pass Current user
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }
