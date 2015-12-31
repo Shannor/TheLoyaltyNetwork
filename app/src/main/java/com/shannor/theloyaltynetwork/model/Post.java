@@ -16,12 +16,12 @@ public class Post {
     private int myPostID;
     static private int postID = 0; //Class level variable that will increase as more posts are made
 
+    //TODO:Add point system to Posts
     public Post(Entity creator,String title,String body){
         this.title = title;
         this.creator = creator;
         this.body = body;
         this.time = calculateTime();
-        
         this.myPostID = postID++;
     }
 
