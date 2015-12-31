@@ -6,6 +6,7 @@
 
 package com.shannor.theloyaltynetwork.backend;
 
+import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
@@ -84,6 +85,7 @@ public class RegistrationEndpoint {
     }
 
     private RegistrationRecord findRecord(String regId) {
+
         return ofy().load().type(RegistrationRecord.class).filter("regId", regId).first().now();
     }
 
