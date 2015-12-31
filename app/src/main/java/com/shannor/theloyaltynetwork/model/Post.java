@@ -21,6 +21,7 @@ public class Post {
         this.creator = creator;
         this.body = body;
         this.time = calculateTime();
+        
         this.myPostID = postID++;
     }
 
