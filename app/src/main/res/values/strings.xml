@@ -6,11 +6,13 @@
     <string name="post_body">Post Body</string>
     <string name="btn_confirm">Post</string>
     <string name="empty_text">Title or Body text is empty</string>
+    <string name="empty_group_text">Name or Mission is empty</string>
     <string name="dialog_confirm">Fix It</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_create_group">CreateGroupActivity</string>
+    <string name="title_activity_create_group">Create Your Own Group</string>
+    <string name ="group_name">Group Name</string>
+    <string name="group_mission">The Mission</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

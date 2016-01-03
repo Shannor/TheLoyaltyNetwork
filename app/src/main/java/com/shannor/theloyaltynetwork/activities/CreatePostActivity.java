@@ -64,7 +64,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }else {
                 //TODO: Add current user functionality
                 //Add new post and close activity
-                postManager.addPost(new User("Test"),title.getText().toString(),body.getText().toString());
+                postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
                 finish();
             }
         }

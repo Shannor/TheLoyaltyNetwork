@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shannor.theloyaltynetwork.R;
+import com.shannor.theloyaltynetwork.model.Group;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
