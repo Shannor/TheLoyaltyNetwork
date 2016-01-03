@@ -41,6 +41,7 @@ public class TopGroupsFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.top_group_feed);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //TODO: Need to create Card View for the Groups and a Adapter
 //        mPostAdapter = new PostAdapter(mPostManager.getContents());
 //        recyclerView.setAdapter(mPostAdapter);
 

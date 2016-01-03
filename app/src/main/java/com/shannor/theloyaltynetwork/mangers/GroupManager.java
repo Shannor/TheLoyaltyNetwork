@@ -1,9 +1,6 @@
 package com.shannor.theloyaltynetwork.mangers;
 
-import android.widget.GridLayout;
-
 import com.shannor.theloyaltynetwork.model.Group;
-import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
 import java.util.ArrayList;
