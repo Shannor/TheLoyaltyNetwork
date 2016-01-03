@@ -1,4 +1,4 @@
-package com.shannor.theloyaltynetwork;
+package com.shannor.theloyaltynetwork.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.model.User;
 
