@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
+import com.shannor.theloyaltynetwork.fragments.TopGroupsFragment;
 
 /**
  * Created by Shannor on 12/24/2015.
@@ -13,7 +14,8 @@ import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
 
         String[] fragmentTitles = {
-                "Main Feed"
+                "Main Feed",
+                "Top Groups"
         };
 
         public MainActivityFragmentAdapter(FragmentManager fm) {
@@ -25,6 +27,8 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
             switch (position) {
                 case 0:
                     return new MainFeedFragment();
+                case 1:
+                    return new TopGroupsFragment();
             }
             return null;
         }

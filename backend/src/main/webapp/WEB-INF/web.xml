@@ -13,7 +13,7 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>com.shannor.theloyaltynetwork.backend.RegistrationEndpoint, com.shannor.theloyaltynetwork.backend.MessagingEndpoint</param-value>
+            <param-value>com.shannor.theloyaltynetwork.backend.RegistrationEndpoint, com.shannor.theloyaltynetwork.backend.MessagingEndpoint, com.shannor.theloyaltynetwork.backend.BeanApi</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

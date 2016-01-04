@@ -10,7 +10,7 @@ import java.util.List;
  * Manger that will handle all post related methods
  * Class will be a singleton
  */
-public class PostManager {
+public class PostManager{
 
     private static PostManager instance = null ;
     private List<Post> postList = new ArrayList<>();
@@ -23,23 +23,19 @@ public class PostManager {
         }
         return instance;
     }
-
-    public void addPost(User user, String title, String body){
+    public void addContent(User user, String title, String body){
         Post post = new Post(user,title,body);
         //TODO: When server is added make sure it adds to front
         //Add to front
-        postList.add(0,post);
+        postList.add(0, post);
     }
-    public void createTestPosts(int amount){
+    public void createTestContent(int amount){
         if (postList.isEmpty()){
             for(int i = 0; i < amount; i++) {
-                addPost(new User("Test"+i),"Title"+i, "Body!"+i);
+                addContent(new User("Test" + i), "Title" + i, "Body!" + i);
             }
         }
     }
 
-    public List<Post> getPostList(){
-        return postList;
-    }
-
+    public List<Post> getContents(){ return postList;}
 }

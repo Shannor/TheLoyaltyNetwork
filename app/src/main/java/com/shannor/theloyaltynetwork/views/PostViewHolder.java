@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.shannor.theloyaltynetwork.R;
+import com.shannor.theloyaltynetwork.model.Group;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
@@ -24,6 +25,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mBody;
     public PostViewHolder(View cardView){
         super(cardView);
+        //TODO:Add a way of showing ratings
         //Init of items needed for the CardView
         mNameText = (TextView)cardView.findViewById(R.id.user_name);
         mSubject = (TextView)cardView.findViewById(R.id.subject_title);

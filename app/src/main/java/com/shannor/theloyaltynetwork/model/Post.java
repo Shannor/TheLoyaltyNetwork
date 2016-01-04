@@ -14,8 +14,10 @@ public class Post {
     private String time;
     private Entity creator;
     private int myPostID;
+    private int rating = 0;
     static private int postID = 0; //Class level variable that will increase as more posts are made
 
+    //TODO:Add point system to Posts
     public Post(Entity creator,String title,String body){
         this.title = title;
         this.creator = creator;
@@ -39,7 +41,12 @@ public class Post {
     public int getMyPostID(){
         return this.myPostID;
     }
-
+    public void incrementRating() {
+        rating++;
+    }
+    public void decrementRating(){
+        rating--;
+    }
     private String calculateTime(){
         String timeOFDay;
         String minute;

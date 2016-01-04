@@ -3,6 +3,7 @@ package com.shannor.theloyaltynetwork.backend;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.shannor.theloyaltynetwork.backend.models.Bean;
 
 /**
  * Objectify service wrapper so we can statically register our persistence classes
@@ -13,6 +14,7 @@ public class OfyService {
 
     static {
         ObjectifyService.register(RegistrationRecord.class);
+        ObjectifyService.register(Bean.class);
     }
 
     public static Objectify ofy() {

@@ -21,6 +21,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
 
     List<Post> postList;
 
+
     //Constructor
     public PostAdapter(List<Post> temp){
         this.postList = temp;
