@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,13 +13,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.shannor.theloyaltynetwork.R;
+import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
+import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFeedFragment.OnUpdatePostListener{
 
     ViewPager mViewPager;
     TabLayout mTabLayout;
-
+    static final int CREATE_POST_REQUEST = 1;  // The request code
+    MainActivityFragmentAdapter mainActivityFragmentAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager)findViewById(R.id.viewpager);
         mTabLayout = (TabLayout)findViewById(R.id.fragment_tabs);
 
-        MainActivityFragmentAdapter mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
+        mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -67,6 +71,23 @@ public class MainActivity extends AppCompatActivity {
     public void initPost(){
         //TODO: May need to be Activity for result,also pass Current user
         Intent intent = new Intent(this,CreatePostActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,CREATE_POST_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CREATE_POST_REQUEST) {
+            if(resultCode == Activity.RESULT_OK){
+                updatePostList();
+            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                //Write your code if there's no result
+//            }
+        }
+    }//onActivityResult
+
+    public void updatePostList(){
+        MainFeedFragment mainFeedFragment = (MainFeedFragment) mainActivityFragmentAdapter.getmCurrentFragment();
+        mainFeedFragment.updateListView();
     }
 }

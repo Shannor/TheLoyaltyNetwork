@@ -3,6 +3,7 @@ package com.shannor.theloyaltynetwork.views;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 import com.shannor.theloyaltynetwork.fragments.TopGroupsFragment;
@@ -17,6 +18,8 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
                 "Main Feed",
                 "Top Groups"
         };
+
+        Fragment mCurrentFragment = null;
 
         public MainActivityFragmentAdapter(FragmentManager fm) {
             super(fm);
@@ -41,5 +44,17 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
         @Override
         public CharSequence getPageTitle(int position) {
             return fragmentTitles[position];
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (mCurrentFragment != object) {
+                mCurrentFragment = (Fragment) object;
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        public Fragment getmCurrentFragment(){
+            return mCurrentFragment;
         }
 }
