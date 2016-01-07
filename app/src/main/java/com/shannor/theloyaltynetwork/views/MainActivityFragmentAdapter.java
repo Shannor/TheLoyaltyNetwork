@@ -46,6 +46,9 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
             return fragmentTitles[position];
         }
 
+        /**
+         * Method used to provide the current Fragment being used.
+         */
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             if (mCurrentFragment != object) {

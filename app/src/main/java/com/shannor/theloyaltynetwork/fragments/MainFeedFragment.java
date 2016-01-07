@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shannor.theloyaltynetwork.R;
+import com.shannor.theloyaltynetwork.mangers.BusBase;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.views.PostAdapter;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 public class MainFeedFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     PostManager mPostManager = PostManager.getInstance();
     PostAdapter mPostAdapter;
-    private OnUpdatePostListener mListener;
+    Bus bus; //Third party software to use to link information
 
     public MainFeedFragment() {
         // Required empty public constructor
@@ -46,43 +49,16 @@ public class MainFeedFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPostAdapter = new PostAdapter(mPostManager.getContents());
         mRecyclerView.setAdapter(mPostAdapter);
+        bus = BusBase.getInstance();
+        bus.register(this);
         return view;
     }
 
-    public void updateListView(){
-        mPostAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnUpdatePostListener) {
-            mListener = (OnUpdatePostListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnUpdatePostListener");
+    @Subscribe
+    public void updatePostView(String s){
+        if (s.equals("s")){
+            mPostAdapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnUpdatePostListener {
-        // TODO: Update argument type and name
-        void updatePostList();
     }
 }
 

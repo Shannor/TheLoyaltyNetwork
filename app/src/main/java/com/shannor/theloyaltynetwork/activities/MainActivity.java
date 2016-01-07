@@ -14,16 +14,22 @@ import android.view.MenuItem;
 
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
+import com.shannor.theloyaltynetwork.mangers.BusBase;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
-public class MainActivity extends AppCompatActivity implements MainFeedFragment.OnUpdatePostListener{
+public class MainActivity extends AppCompatActivity {
 
     ViewPager mViewPager;
     TabLayout mTabLayout;
     static final int CREATE_POST_REQUEST = 1;  // The request code
     MainActivityFragmentAdapter mainActivityFragmentAdapter;
-    @Override
+    FloatingActionButton fab;
+    Bus bus; //Third party to interact with fragments
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -37,11 +43,38 @@ public class MainActivity extends AppCompatActivity implements MainFeedFragment.
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        bus = BusBase.getInstance();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 initPost();
+            }
+        });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            /**
+             * Method used to change out Fab buttons or remove it all together.
+             * @param position
+             */
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0){
+                    fab.show();
+                }else{
+                    fab.hide();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -78,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements MainFeedFragment.
 
         if (requestCode == CREATE_POST_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
-                updatePostList();
+//                updatePostList();
+                bus.post("s");
             }
 //            if (resultCode == Activity.RESULT_CANCELED) {
 //                //Write your code if there's no result
@@ -86,8 +120,4 @@ public class MainActivity extends AppCompatActivity implements MainFeedFragment.
         }
     }//onActivityResult
 
-    public void updatePostList(){
-        MainFeedFragment mainFeedFragment = (MainFeedFragment) mainActivityFragmentAdapter.getmCurrentFragment();
-        mainFeedFragment.updateListView();
-    }
 }
