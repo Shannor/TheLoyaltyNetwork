@@ -16,6 +16,7 @@ import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 import com.shannor.theloyaltynetwork.mangers.BusBase;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
+import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
@@ -28,14 +29,21 @@ public class MainActivity extends AppCompatActivity {
     MainActivityFragmentAdapter mainActivityFragmentAdapter;
     FloatingActionButton fab;
     Bus bus; //Third party to interact with fragments
+    SessionManager mSessionManager;
 
     //TODO: Work on Login page and using Shared Prefences.
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
     //TODO: Redesign all the fragment View Cards to fit the information better
     //TODO: When clicking on a card open up the discussion
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
+
+        //First check if User has signed in
+        mSessionManager = new SessionManager(this);
+        //If they are logged in Continue
+        mSessionManager.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

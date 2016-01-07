@@ -29,7 +29,7 @@ public class SessionManager {
     private static final String PREF_NAME = "UserLoginInformation";
 
     //Key for login status
-    private static final String IS_LOGN = "isLoggedIn";
+    private static final String IS_LOGIN = "isLoggedIn";
 
     //May not be used, is for if we want to store the User's name
     public static final String KEY_NAME = "name";
@@ -48,8 +48,8 @@ public class SessionManager {
      * @param email User's personal Email
      */
     public void createLoginSession(String email){
-
-        editor.putBoolean(IS_LOGN,true);
+        editor.clear();
+        editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_EMAIL,email);
         editor.commit();
     }
@@ -92,6 +92,6 @@ public class SessionManager {
      * @return true or false.
      */
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGN,false);
+        return pref.getBoolean(IS_LOGIN,false);
     }
 }
