@@ -22,14 +22,14 @@ import com.squareup.otto.ThreadEnforcer;
 
 public class MainActivity extends AppCompatActivity {
 
+    static final int CREATE_POST_REQUEST = 1;  // The request code for resultActivity
     ViewPager mViewPager;
     TabLayout mTabLayout;
-    static final int CREATE_POST_REQUEST = 1;  // The request code
     MainActivityFragmentAdapter mainActivityFragmentAdapter;
     FloatingActionButton fab;
     Bus bus; //Third party to interact with fragments
 
-
+    //TODO: Work on Login page and using Shared Prefences.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initPost(){
-        //TODO: May need to be Activity for result,also pass Current user
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivityForResult(intent,CREATE_POST_REQUEST);
     }
@@ -111,13 +110,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == CREATE_POST_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
-//                updatePostList();
                 bus.post("s");
             }
 //            if (resultCode == Activity.RESULT_CANCELED) {
 //                //Write your code if there's no result
 //            }
         }
-    }//onActivityResult
-
+    }
 }

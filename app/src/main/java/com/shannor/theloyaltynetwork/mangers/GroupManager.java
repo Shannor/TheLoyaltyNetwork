@@ -37,7 +37,7 @@ public class GroupManager {
         }
     }
 
-    public List<Group> getGroupList(){
+    public List<Group> getContents(){
         return groupList;
     }
 }

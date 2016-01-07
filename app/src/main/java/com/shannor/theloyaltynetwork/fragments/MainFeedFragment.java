@@ -1,6 +1,5 @@
 package com.shannor.theloyaltynetwork.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,6 +53,11 @@ public class MainFeedFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method for teh Bus that will be updated in the future.
+     * Used to update the Post List when new post is added.
+     * @param s temp for now, will change.
+     */
     @Subscribe
     public void updatePostView(String s){
         if (s.equals("s")){

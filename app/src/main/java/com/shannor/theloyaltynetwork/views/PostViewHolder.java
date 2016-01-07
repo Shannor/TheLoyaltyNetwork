@@ -23,6 +23,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mSubject;
     private TextView mTime;
     private TextView mBody;
+
     public PostViewHolder(View cardView){
         super(cardView);
         //TODO:Add a way of showing ratings

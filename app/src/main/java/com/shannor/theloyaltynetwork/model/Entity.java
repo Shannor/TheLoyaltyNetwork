@@ -42,4 +42,10 @@ public abstract class Entity {
     public void changeName(String name){
         this.name = name;
     }
+    public Integer getNumPosts(){
+        return postList.size();
+    }
+    public Integer getTotalPointsEarned(){
+        return totalPointsEarned;
+    }
 }

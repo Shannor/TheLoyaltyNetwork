@@ -55,5 +55,7 @@ public class Group extends Entity {
     public void addFollower(List<User> newFollowers){
         this.followers.addAll(newFollowers);
     }
-
+    public Integer getTotalMembers(){
+        return 1 + members.size() + admins.size() + followers.size(); //1 is for the leader
+    }
 }

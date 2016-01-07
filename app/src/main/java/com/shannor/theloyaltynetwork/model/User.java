@@ -29,7 +29,4 @@ public class User extends Entity {
     public List<Group> getAffiliations(){
         return this.affiliations;
     }
-    public int getTotalPointsEarned(){
-        return this.totalPointsEarned;
-    }
 }
