@@ -54,7 +54,7 @@ public class MainFeedFragment extends Fragment {
     }
 
     /**
-     * Method for teh Bus that will be updated in the future.
+     * Method for the Bus that will be updated in the future.
      * Used to update the Post List when new post is added.
      * @param s temp for now, will change.
      */

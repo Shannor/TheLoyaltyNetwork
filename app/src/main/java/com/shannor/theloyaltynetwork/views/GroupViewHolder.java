@@ -31,8 +31,8 @@ public class GroupViewHolder extends RecyclerView.ViewHolder{
     public void bindTopic(Group group){
         //Binds this specific post the the Recycler View
         mGroupName.setText(group.getName());
-        mNumberOfPosts.setText(( group.getNumPosts().toString()));
-        mTotalMembers.setText(group.getTotalMembers().toString());
-        mGroupRating.setText(group.getTotalPointsEarned().toString());
+        mNumberOfPosts.setText((String.format("%d",group.getNumPosts())));
+        mTotalMembers.setText(String.format("%d",group.getTotalMembers()));
+        mGroupRating.setText(String.format("%d",group.getTotalPointsEarned()));
     }
 }

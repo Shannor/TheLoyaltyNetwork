@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     Bus bus; //Third party to interact with fragments
 
     //TODO: Work on Login page and using Shared Prefences.
+    //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
+    //TODO: Redesign all the fragment View Cards to fit the information better
+    //TODO: When clicking on a card open up the discussion
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
             /**
              * Method used to change out Fab buttons or remove it all together.
-             * @param position
+             * @param position which fragment currently on
              */
             @Override
             public void onPageSelected(int position) {
@@ -101,10 +104,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Function to just start the create Post activity
+     */
     public void initPost(){
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivityForResult(intent,CREATE_POST_REQUEST);
     }
+
+    /**
+     * Method designed to get the result from the CreatePostActivity.
+     * If OK, will update the List
+     * If Canceled will do nothing
+     * @param requestCode Code to make sure its the right Activity returning
+     * @param resultCode Either OK or Cancel
+     * @param data Information returned
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

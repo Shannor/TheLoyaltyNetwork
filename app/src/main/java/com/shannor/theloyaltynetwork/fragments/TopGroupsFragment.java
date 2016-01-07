@@ -48,17 +48,12 @@ public class TopGroupsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_top_groups, container, false);
         groupManager.createTestContent(5);
-//        Group group = new Group(new User("Shannor"),"Pizza Group","Share Pizza");
-//        group.addFollower(new User("Tom"));
-//        group.addPost(new Post(new User("tim"), "stuff", "stuff"));
-//        group.increaseTotalPointsEarned(10);
-//        List<Group> temp = new ArrayList<>();
-//        temp.add(group);
         recyclerView = (RecyclerView)view.findViewById(R.id.top_group_feed);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new GroupViewAdapter(groupManager.getContents());
         recyclerView.setAdapter(mAdapter);
+        bus.register(this);
         return view;
     }
 
