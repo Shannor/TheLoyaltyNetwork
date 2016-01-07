@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     Bus bus; //Third party to interact with fragments
     SessionManager mSessionManager;
 
-    //TODO: Work on Login page and using Shared Prefences.
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
     //TODO: Redesign all the fragment View Cards to fit the information better
     //TODO: When clicking on a card open up the discussion
@@ -107,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if (id == R.id.action_logout){
+            mSessionManager.logoutUser();
         }
 
         return super.onOptionsItemSelected(item);
