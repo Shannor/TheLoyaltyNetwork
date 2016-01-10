@@ -57,6 +57,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".activities.CreateAccountActivity"
+            android:label="@string/title_activity_create_account"
+            android:parentActivityName=".activities.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.shannor.theloyaltynetwork.activities.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

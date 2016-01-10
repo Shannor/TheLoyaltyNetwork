@@ -31,7 +31,7 @@ public class SessionManager {
     //Key for login status
     private static final String IS_LOGIN = "isLoggedIn";
 
-    //May not be used, is for if we want to store the User's name
+    //Save this, but Use Email to find user name with database
     public static final String KEY_NAME = "name";
 
     public static final String KEY_EMAIL = "email";
@@ -52,6 +52,18 @@ public class SessionManager {
         editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_EMAIL,email);
         editor.commit();
+    }
+
+    /**
+     * Method to set the Current User name
+     * MMakes sure that email has already been set
+     * @param name current User Name
+     */
+    public void setUserName(String name){
+        if (pref.getString(KEY_EMAIL,null) != null){
+            editor.putString(KEY_NAME,name);
+            editor.commit();
+        }
     }
 
     /**

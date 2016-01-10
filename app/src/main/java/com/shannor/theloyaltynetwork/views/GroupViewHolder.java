@@ -18,6 +18,11 @@ public class GroupViewHolder extends RecyclerView.ViewHolder{
     private TextView mNumberOfPosts;
     private TextView mTotalMembers;
     private TextView mGroupRating;
+    String[] textTitles = {
+            "Total Posts:",
+            "Total Members:",
+            "Total Points:"
+    };
 
     public GroupViewHolder(View cardView) {
         super(cardView);
@@ -31,8 +36,8 @@ public class GroupViewHolder extends RecyclerView.ViewHolder{
     public void bindTopic(Group group){
         //Binds this specific post the the Recycler View
         mGroupName.setText(group.getName());
-        mNumberOfPosts.setText((String.format("%d",group.getNumPosts())));
-        mTotalMembers.setText(String.format("%d",group.getTotalMembers()));
-        mGroupRating.setText(String.format("%d",group.getTotalPointsEarned()));
+        mNumberOfPosts.setText((String.format("%s %d",textTitles[0],group.getNumPosts())));
+        mTotalMembers.setText(String.format("%s %d",textTitles[1],group.getTotalMembers()));
+        mGroupRating.setText(String.format("%s %d",textTitles[2],group.getTotalPointsEarned()));
     }
 }
