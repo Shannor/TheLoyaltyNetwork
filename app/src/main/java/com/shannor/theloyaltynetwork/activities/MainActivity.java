@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     SessionManager mSessionManager;
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
-    //TODO: Redesign all the fragment View Cards to fit the information better
     //TODO: When clicking on a card open up the discussion
 
     protected void onCreate(Bundle savedInstanceState) {

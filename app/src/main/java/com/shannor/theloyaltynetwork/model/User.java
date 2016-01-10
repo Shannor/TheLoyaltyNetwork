@@ -6,8 +6,8 @@ import java.util.List;
 
 /**
  * Created by Shannor on 10/24/2015.
- * Class created to hold the User information that will be displayed on the post
- * This Class will most likely be expanded in the future
+ * Class created to hold the User information that will be displayed on the post.
+ * This Class will most likely be expanded in the future.
  */
 public class User extends Entity {
     private List<Group> affiliations = new ArrayList<>();

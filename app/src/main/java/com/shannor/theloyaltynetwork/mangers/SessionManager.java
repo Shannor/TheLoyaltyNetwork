@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.shannor.theloyaltynetwork.activities.LoginActivity;
+import com.shannor.theloyaltynetwork.model.User;
 
 /**
  * Created by Shannor on 1/7/2016.
@@ -36,6 +38,9 @@ public class SessionManager {
 
     public static final String KEY_EMAIL = "email";
 
+    public static final String KEY_USER_OBJECT = "user";
+
+
     //Constructor
     public SessionManager(Context context){
         this.mContext = context;
@@ -64,6 +69,17 @@ public class SessionManager {
             editor.putString(KEY_NAME,name);
             editor.commit();
         }
+    }
+
+    /**
+     * Method to add the User object to shard Pref.
+     * @param userObject current User object
+     */
+    public void setUserObject(User userObject){
+        Gson gson = new Gson();
+        String json = gson.toJson(userObject); // myObject - instance of MyObject
+        editor.putString(KEY_USER_OBJECT, json);
+        editor.commit();
     }
 
     /**
@@ -104,6 +120,16 @@ public class SessionManager {
      * @return true or false.
      */
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN,false);
+        return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    /**
+     * Getter to get the User Object Saved.
+     * @return Current User
+     */
+    public User getUser(){
+        Gson gson = new Gson();
+        String json = pref.getString(KEY_USER_OBJECT,null);
+        return gson.fromJson(json, User.class);
     }
 }
