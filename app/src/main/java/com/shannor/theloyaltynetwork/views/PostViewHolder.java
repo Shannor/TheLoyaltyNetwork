@@ -23,15 +23,16 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mSubject;
     private TextView mTime;
     private TextView mBody;
+    private TextView mPosts;
 
     public PostViewHolder(View cardView){
         super(cardView);
-        //TODO:Add a way of showing ratings
         //Init of items needed for the CardView
         mNameText = (TextView)cardView.findViewById(R.id.user_name);
         mSubject = (TextView)cardView.findViewById(R.id.subject_title);
         mTime = (TextView)cardView.findViewById(R.id.time_text);
         mBody = (TextView)cardView.findViewById(R.id.summary);
+        mPosts = (TextView)cardView.findViewById(R.id.post_standing);
     }
 
 //    TODO: Needs an object to take in the bind to the view
@@ -41,5 +42,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mSubject.setText(post.getTitle());
         mTime.setText(post.getTime());
         mBody.setText(post.getBody());
+        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }
 }

@@ -14,7 +14,8 @@ public class Post {
     private String time;
     private Entity creator;
     private int myPostID;
-    private int rating = 0;
+    private int agree = 0; //Make unsigned
+    private int disagree = 0;
     static private int postID = 0; //Class level variable that will increase as more posts are made
 
     //TODO:Add point system to Posts
@@ -24,8 +25,12 @@ public class Post {
         this.body = body;
         this.time = calculateTime();
         this.myPostID = postID++;
+        this.agree = 0;
+        this.disagree = 0;
     }
 
+    public int getAgree(){return this.agree;}
+    public int getDisagree(){return this.disagree;}
     public String getTitle(){
         return this.title;
     }
@@ -41,11 +46,11 @@ public class Post {
     public int getMyPostID(){
         return this.myPostID;
     }
-    public void incrementRating() {
-        rating++;
+    public void increaseAgree(){
+        agree++;
     }
-    public void decrementRating(){
-        rating--;
+    public void increaseDisagree(){
+        disagree++;
     }
     private String calculateTime(){
         String timeOFDay;

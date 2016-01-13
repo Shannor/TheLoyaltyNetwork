@@ -39,6 +39,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.post_title_view);
         body = (EditText)findViewById(R.id.post_body_view);
+
         builder = new AlertDialog.Builder(this);
         title.requestFocus();
         showKeyBoard();
@@ -73,7 +74,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 dialog.show();
             }else {
                 //TODO: Add current user functionality
-                //Add new post and close activity
+                //Just show a substring of the Body text
                 postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
                 setResult(Activity.RESULT_OK);
                 finish();

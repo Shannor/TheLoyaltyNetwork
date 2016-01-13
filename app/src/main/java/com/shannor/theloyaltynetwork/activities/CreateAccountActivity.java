@@ -42,11 +42,18 @@ public class CreateAccountActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if ( userName.getText().toString().isEmpty() ||
+                        emailAddress.getText().toString().isEmpty() ||
+                        password.getText().toString().isEmpty()){
+                    //Show Error message that something is null
+                }else{
+                    hideKeyBoard();
+                    finish();
+                }
                 //Check Server to see if already Registered
                 //Create an alert if email is in use
                 //if not then add to server
                 //Create alert if information isnt strong enough
-                finish();
             }
         });
 
@@ -54,5 +61,9 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public void showKeyBoard(){
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    public void hideKeyBoard(){
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
