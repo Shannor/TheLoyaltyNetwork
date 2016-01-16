@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 //TODO: Add current user functionality
                 //Add new post and close activity
                 postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         }

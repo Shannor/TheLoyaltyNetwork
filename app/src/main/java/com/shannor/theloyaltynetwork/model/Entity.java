@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by Shannor on 10/25/2015.
- * Master Abstract class that Group and User extend from
+ * Abstract class that Group and User extend from.
  */
 public abstract class Entity {
     protected String name;
@@ -41,5 +41,11 @@ public abstract class Entity {
     }
     public void changeName(String name){
         this.name = name;
+    }
+    public int getNumPosts(){
+        return postList.size();
+    }
+    public int getTotalPointsEarned(){
+        return totalPointsEarned;
     }
 }

@@ -14,13 +14,11 @@ import java.util.List;
 
 /**
  * Created by Shannor on 10/24/2015.
- * The adapter for the RecyclerView
- *
+ * The adapter for the RecyclerView for the Posts being shown
  */
 public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
 
     List<Post> postList;
-
 
     //Constructor
     public PostAdapter(List<Post> temp){
@@ -34,13 +32,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
         return new PostViewHolder(view);
     }
 
-//    TODO:Set up binding with some passed in array or list to bind with
     @Override
     public void onBindViewHolder(PostViewHolder holder, int pos) {
         holder.bindTopic(postList.get(pos));
     }
 
-//    TODO: Provide an accurate size to return based on storage type
     @Override
     public int getItemCount(){
         return postList.size();

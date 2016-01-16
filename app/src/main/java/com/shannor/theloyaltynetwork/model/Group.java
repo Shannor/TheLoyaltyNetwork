@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class Group extends Entity {
     //Leader can pick the amount of points needed to move up just cannot exceed the max
-    final static private int MAX_MEMBER_REQUIREMENTS = 2000;
-    final static private int MAX_ADMIN_REQUIREMENTS = 4000;
+//    final static private int MAX_MEMBER_REQUIREMENTS = 2000;
+//    final static private int MAX_ADMIN_REQUIREMENTS = 4000;
     private List<User> members;
     private User leader;
     private List<User> admins;
@@ -55,5 +55,7 @@ public class Group extends Entity {
     public void addFollower(List<User> newFollowers){
         this.followers.addAll(newFollowers);
     }
-
+    public int getTotalMembers(){
+        return 1 + members.size() + admins.size() + followers.size(); //1 is for the leader
+    }
 }
