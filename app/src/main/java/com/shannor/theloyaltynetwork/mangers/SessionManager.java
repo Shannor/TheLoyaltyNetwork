@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.shannor.theloyaltynetwork.activities.LoginActivity;
+import com.shannor.theloyaltynetwork.model.User;
 
 /**
  * Created by Shannor on 1/7/2016.
@@ -31,10 +33,13 @@ public class SessionManager {
     //Key for login status
     private static final String IS_LOGIN = "isLoggedIn";
 
-    //May not be used, is for if we want to store the User's name
+    //Save this, but Use Email to find user name with database
     public static final String KEY_NAME = "name";
 
     public static final String KEY_EMAIL = "email";
+
+    public static final String KEY_USER_OBJECT = "user";
+
 
     //Constructor
     public SessionManager(Context context){
@@ -51,6 +56,29 @@ public class SessionManager {
         editor.clear();
         editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_EMAIL,email);
+        editor.commit();
+    }
+
+    /**
+     * Method to set the Current User name
+     * MMakes sure that email has already been set
+     * @param name current User Name
+     */
+    public void setUserName(String name){
+        if (pref.getString(KEY_EMAIL,null) != null){
+            editor.putString(KEY_NAME,name);
+            editor.commit();
+        }
+    }
+
+    /**
+     * Method to add the User object to shard Pref.
+     * @param userObject current User object
+     */
+    public void setUserObject(User userObject){
+        Gson gson = new Gson();
+        String json = gson.toJson(userObject); // myObject - instance of MyObject
+        editor.putString(KEY_USER_OBJECT, json);
         editor.commit();
     }
 
@@ -92,6 +120,16 @@ public class SessionManager {
      * @return true or false.
      */
     public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN,false);
+        return pref.getBoolean(IS_LOGIN, false);
+    }
+
+    /**
+     * Getter to get the User Object Saved.
+     * @return Current User
+     */
+    public User getUser(){
+        Gson gson = new Gson();
+        String json = pref.getString(KEY_USER_OBJECT,null);
+        return gson.fromJson(json, User.class);
     }
 }

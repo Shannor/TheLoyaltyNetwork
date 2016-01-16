@@ -2,16 +2,21 @@ package com.shannor.theloyaltynetwork.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
+import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.model.User;
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -21,10 +26,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private EditText body;
     private AlertDialog.Builder builder;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Used to get current User
+        SessionManager sessionManager = new SessionManager(this);
+
         setContentView(R.layout.activity_create_post);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_post);
         setSupportActionBar(toolbar);
@@ -32,7 +39,10 @@ public class CreatePostActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.post_title_view);
         body = (EditText)findViewById(R.id.post_body_view);
+
         builder = new AlertDialog.Builder(this);
+        title.requestFocus();
+        showKeyBoard();
 
         builder.setMessage(R.string.empty_text)
                 .setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
@@ -64,7 +74,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 dialog.show();
             }else {
                 //TODO: Add current user functionality
-                //Add new post and close activity
+                //Just show a substring of the Body text
                 postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
                 setResult(Activity.RESULT_OK);
                 finish();
@@ -72,5 +82,9 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showKeyBoard(){
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 }
