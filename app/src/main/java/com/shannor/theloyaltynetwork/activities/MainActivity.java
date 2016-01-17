@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 import com.shannor.theloyaltynetwork.mangers.BusBase;
@@ -42,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         mSessionManager = new SessionManager(this);
         //If they are logged in Continue
         mSessionManager.checkLogin();
+
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

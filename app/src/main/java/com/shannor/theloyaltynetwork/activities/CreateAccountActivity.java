@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.parse.ParseObject;
 import com.shannor.theloyaltynetwork.R;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -28,7 +29,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         userName = (EditText)findViewById(R.id.user_name);
         emailAddress = (EditText)findViewById(R.id.user_email);
