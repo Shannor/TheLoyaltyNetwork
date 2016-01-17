@@ -9,6 +9,10 @@
     <string name="empty_group_text">Name or Mission is empty</string>
     <string name="dialog_confirm">Fix It</string>
 
+    <!-- Used For Parse-->
+    <string name="parse_app_id">UJq7ZCfGhe0rF3HTlczEeWfOBsiIKguocCmPrLbP</string>
+    <string name="parse_client_key">9gFaoMRWfm1Kc6tdIYvLwNs52GSYbvhCbl9pZwtk</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_create_group">Create Your Own Group</string>
     <string name="group_name">Group Name</string>
