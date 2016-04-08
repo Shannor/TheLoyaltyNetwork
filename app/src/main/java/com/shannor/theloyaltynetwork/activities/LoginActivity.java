@@ -70,7 +70,8 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setupActionBar();
+        //TODO: issue with setting up toolbar randomly
+//        setupActionBar();
         //Setup Session Manager to save current User
         mSessionManager = new SessionManager(this);
         // Set up the login form.
