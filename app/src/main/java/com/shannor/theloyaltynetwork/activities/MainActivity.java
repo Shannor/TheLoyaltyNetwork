@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         //If they are logged in Continue
         mSessionManager.checkLogin();
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+//        ParseObject testObject = new ParseObject("TestObject");
+//        testObject.put("foo", "bar");
+//        testObject.saveInBackground();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
