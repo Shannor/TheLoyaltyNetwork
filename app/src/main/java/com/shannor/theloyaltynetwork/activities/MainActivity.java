@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.parse.ParseAnalytics;
-import com.parse.ParseObject;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 import com.shannor.theloyaltynetwork.mangers.BusBase;

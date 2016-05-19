@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "770143254312",
+    "firebase_url": "https://loyaltynetwork.firebaseio.com",
+    "project_id": "project-7717517912809732871",
+    "storage_bucket": "project-7717517912809732871.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770143254312:android:2432401072255292",
+        "android_client_info": {
+          "package_name": "com.shannor.theloyaltynetwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770143254312-1nbvpi7sgrcqlkt977ndavp1ofd5a0re.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT5Zoon5tMRnugqTiamZ1Srr9J5UdlVZk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

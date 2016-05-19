@@ -1,6 +1,5 @@
 package com.shannor.theloyaltynetwork.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -9,6 +8,7 @@ import java.util.Calendar;
  * Holds the information for what a post needs
  */
 public class Post {
+
     private String title;
     private String body;
     private String time;
@@ -20,6 +20,7 @@ public class Post {
 
     //TODO:Add point system to Posts
     public Post(Entity creator,String title,String body){
+
         this.title = title;
         this.creator = creator;
         this.body = body;
