@@ -1,6 +1,5 @@
 package com.shannor.theloyaltynetwork.fragments;
 
-import android.os.BaseBundle;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,23 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.mangers.BusBase;
 import com.shannor.theloyaltynetwork.mangers.GroupManager;
-import com.shannor.theloyaltynetwork.model.Group;
-import com.shannor.theloyaltynetwork.model.Post;
-import com.shannor.theloyaltynetwork.model.User;
 import com.shannor.theloyaltynetwork.views.GroupViewAdapter;
-import com.squareup.otto.Bus;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TopGroupsFragment extends Fragment {
 
     GroupManager groupManager = GroupManager.getInstance();
     RecyclerView recyclerView;
-    Bus bus = BusBase.getInstance();
     GroupViewAdapter mAdapter;
 
     public TopGroupsFragment() {
@@ -53,7 +43,6 @@ public class TopGroupsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new GroupViewAdapter(groupManager.getContents());
         recyclerView.setAdapter(mAdapter);
-        bus.register(this);
         return view;
     }
 

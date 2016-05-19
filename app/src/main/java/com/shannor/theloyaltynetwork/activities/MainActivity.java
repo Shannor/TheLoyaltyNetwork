@@ -13,13 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
-import com.shannor.theloyaltynetwork.mangers.BusBase;
-import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
-import com.squareup.otto.Bus;
-import com.squareup.otto.ThreadEnforcer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     MainActivityFragmentAdapter mainActivityFragmentAdapter;
     FloatingActionButton fab;
-    Bus bus; //Third party to interact with fragments
     SessionManager mSessionManager;
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
@@ -43,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
         //If they are logged in Continue
         mSessionManager.checkLogin();
 
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        bus = BusBase.getInstance();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == CREATE_POST_REQUEST) {
             if(resultCode == Activity.RESULT_OK){
-                bus.post("s");
+
             }
 //            if (resultCode == Activity.RESULT_CANCELED) {
 //                //Write your code if there's no result
