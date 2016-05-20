@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -12,28 +12,10 @@
     tools:context="com.shannor.theloyaltynetwork.activities.CreateAccountActivity"
     tools:showIn="@layout/activity_create_account">
 
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_user_name">
-
-        <EditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/prompt_user"
-            android:inputType="textPersonName"
-            android:maxLines="1"
-            android:singleLine="true" />
-
-    </android.support.design.widget.TextInputLayout>
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout_email"
-        android:layout_below="@+id/layout_user_name"
         android:paddingTop="@dimen/activity_vertical_margin">
         <EditText
             android:id="@+id/user_email"
@@ -66,9 +48,20 @@
 
     <Button
         android:id="@+id/confirm_creation"
-        android:layout_below="@+id/layout_password"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/prompt_create_account" />
+        android:text="@string/confirm_creating_account"
+        android:layout_below="@+id/layout_password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/password_requirements"
+        android:id="@+id/password_requirements_prompt"
+        android:layout_below="@+id/layout_password"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

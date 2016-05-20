@@ -3,27 +3,33 @@ package com.shannor.theloyaltynetwork.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 
+
 public class MainActivity extends AppCompatActivity {
 
     static final int CREATE_POST_REQUEST = 1;  // The request code for resultActivity
-    ViewPager mViewPager;
-    TabLayout mTabLayout;
-    MainActivityFragmentAdapter mainActivityFragmentAdapter;
-    FloatingActionButton fab;
-    SessionManager mSessionManager;
+
+    private FloatingActionButton fab;
+    private SessionManager mSessionManager;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
     //TODO: When clicking on a card open up the discussion
@@ -32,18 +38,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Signed in", "onAuthStateChanged:signed_in:" + user.getUid());
+
+                } else {
+                    // User is signed out
+                    Log.d("Signed Out", "onAuthStateChanged:signed_out");
+                    Intent intent = new Intent(getBaseContext(),LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        };
+
+
         //First check if User has signed in
         mSessionManager = new SessionManager(this);
         //If they are logged in Continue
-        mSessionManager.checkLogin();
+//        mSessionManager.checkLogin();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mViewPager = (ViewPager)findViewById(R.id.viewpager);
-        mTabLayout = (TabLayout)findViewById(R.id.fragment_tabs);
+        ViewPager mViewPager = (ViewPager)findViewById(R.id.viewpager);
+        TabLayout mTabLayout = (TabLayout)findViewById(R.id.fragment_tabs);
 
-        mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
+        MainActivityFragmentAdapter mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -61,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
-
             /**
              * Method used to change out Fab buttons or remove it all together.
              * @param position which fragment currently on
@@ -102,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_logout){
             mSessionManager.logoutUser();
+            FirebaseAuth.getInstance().signOut();
         }
 
         return super.onOptionsItemSelected(item);
@@ -133,6 +158,20 @@ public class MainActivity extends AppCompatActivity {
 //            if (resultCode == Activity.RESULT_CANCELED) {
 //                //Write your code if there's no result
 //            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 }

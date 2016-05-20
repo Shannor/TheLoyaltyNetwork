@@ -29,9 +29,6 @@ public class CreatePostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Used to get current User
-        SessionManager sessionManager = new SessionManager(this);
-
         setContentView(R.layout.activity_create_post);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_post);
         setSupportActionBar(toolbar);

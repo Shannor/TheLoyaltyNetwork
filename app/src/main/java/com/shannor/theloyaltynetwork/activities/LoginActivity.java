@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +21,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
 
@@ -30,14 +37,6 @@ import com.shannor.theloyaltynetwork.mangers.SessionManager;
  */
 public class LoginActivity extends AppCompatActivity  {
 
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity  {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private SessionManager mSessionManager;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -57,10 +56,8 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
+        mAuth = FirebaseAuth.getInstance();
 
-        //Setup Session Manager to save current User
-        mSessionManager = new SessionManager(this);
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
@@ -218,27 +215,29 @@ public class LoginActivity extends AppCompatActivity  {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+
+            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d("Signed In Success", "signInWithEmail:onComplete:" + task.isSuccessful());
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Log.w("Signed In Failed", "signInWithEmail", task.getException());
+                            }
+                        }
+                    });
 
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
+                //Waiting for Firebase to confirm or deny the login attempt
+                Thread.sleep(4000);
             } catch (InterruptedException e) {
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            mSessionManager.createLoginSession(mEmail);
-            //TODO: Pull the person's User Name down from their Email then set it
-            mSessionManager.setUserName("Shan9417");
             return true;
         }
 

@@ -30,5 +30,7 @@
     </string>
     <string name="title_activity_create_account">Create New Account</string>
     <string name="prompt_create_account">Create Account</string>
+    <string name="confirm_creating_account">Join Us!</string>
+    <string name="password_requirements">* Password needs: 1 Capital, 1 Lowercase, 1 Special character, 1 number and at least 8 characters long.</string>
 
 </resources>

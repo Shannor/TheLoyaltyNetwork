@@ -83,17 +83,6 @@ public class SessionManager {
     }
 
     /**
-     * Method to check if User is logged in.
-     * If not will start the Login Activity
-     */
-    public void checkLogin(){
-        if (!this.isLoggedIn()){
-            Intent intent = new Intent(mContext, LoginActivity.class);
-            mContext.startActivity(intent);
-        }
-    }
-
-    /**
      * Clears the Users information,
      * then redirect them to the Login Activity.
      */

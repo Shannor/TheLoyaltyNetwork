@@ -3,25 +3,42 @@ package com.shannor.theloyaltynetwork.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.shannor.theloyaltynetwork.R;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    EditText userName;
-    EditText emailAddress;
-    EditText password; //Hash after receiving
-    Button submit;
+    private EditText emailAddress;
+    private EditText password; //Hash after receiving
+    private Button submit;
+    private FirebaseAuth mAuth;
+    //Regex, Requires: 1 Capital, 1 Lower Case, 1 Special Char, 1 Number, and at least length 8
+    private String regexPassword = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,}";
+    private Pattern pattern;
+    private Matcher matcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,36 +47,40 @@ public class CreateAccountActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mAuth = FirebaseAuth.getInstance();
+        pattern = Pattern.compile(regexPassword);
 
-        userName = (EditText)findViewById(R.id.user_name);
         emailAddress = (EditText)findViewById(R.id.user_email);
-        password = (EditText)findViewById(R.id.user_password); //Hash
+        password = (EditText)findViewById(R.id.user_password);
         submit = (Button)findViewById(R.id.confirm_creation);
 
-        userName.requestFocus();
+        emailAddress.requestFocus();
         showKeyBoard();
 
-        final ProgressDialog progressDialog =  new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Creating account now...");
-
-        //TODO: Server Registration Here
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ( userName.getText().toString().isEmpty() ||
-                        emailAddress.getText().toString().isEmpty() ||
+                if ( emailAddress.getText().toString().isEmpty() ||
                         password.getText().toString().isEmpty()){
-                    //Show Error message that something is null
-                }else{
-                    hideKeyBoard();
-                    progressDialog.show();
+                    showKeyBoard();
+                    emailAddress.requestFocus();
+                    Dialog d = createErrorDialog("Empty Fields","Email or Password was empty");
+                    d.show();
 
+                }else{
+                    matcher = pattern.matcher(password.getText().toString());
+                    if(matcher.matches()) {
+                        hideKeyBoard();
+                        createAccount(emailAddress.getText().toString(), password.getText().toString());
+                        finish();
+                    }else{
+                        Dialog d = createErrorDialog("Too weak of password.","Password did not meet the criteria.");
+                        d.show();
+                        password.setText("");
+                        password.requestFocus();
+                        showKeyBoard();
+                    }
                 }
-                //Check Server to see if already Registered
-                //Create an alert if email is in use
-                //if not then add to server
-                //Create alert if information isnt strong enough
             }
         });
 
@@ -73,37 +94,40 @@ public class CreateAccountActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-//    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-//    private void showProgress(final boolean show) {
-//        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-//        // for very easy animations. If available, use these APIs to fade-in
-//        // the progress spinner.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-//            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-//
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//                }
-//            });
-//
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mProgressView.animate().setDuration(shortAnimTime).alpha(
-//                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-//                @Override
-//                public void onAnimationEnd(Animator animation) {
-//                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//                }
-//            });
-//        } else {
-//            // The ViewPropertyAnimator APIs are not available, so simply show
-//            // and hide the relevant UI components.
-//            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//        }
-//    }
+    public void createAccount(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(CreateAccountActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("TAG", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getBaseContext(),"Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+
+
+    public Dialog createErrorDialog(String title, String positive) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(positive);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Purposely empty
+                dialog.dismiss();
+            }
+        });
+
+        return builder.create();
+    }
 }
