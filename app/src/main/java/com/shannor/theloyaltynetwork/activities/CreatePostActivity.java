@@ -72,7 +72,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }else {
                 //TODO: Add current user functionality
                 //Just show a substring of the Body text
-                postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
+//                postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
                 setResult(Activity.RESULT_OK);
                 finish();
             }

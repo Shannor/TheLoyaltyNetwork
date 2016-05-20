@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.views.PostAdapter;
@@ -17,6 +18,7 @@ public class MainFeedFragment extends Fragment {
     RecyclerView mRecyclerView;
     PostManager mPostManager = PostManager.getInstance();
     PostAdapter mPostAdapter;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public MainFeedFragment() {
         // Required empty public constructor

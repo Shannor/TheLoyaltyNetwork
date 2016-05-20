@@ -13,10 +13,10 @@ public class Post {
     private String body;
     private String time;
     private Entity creator;
-    private int myPostID;
-    private int agree = 0; //Make unsigned
+    private long myPostID;
+    private int agree = 0;
     private int disagree = 0;
-    static private int postID = 0; //Class level variable that will increase as more posts are made
+    static private long postID = 0; //Class level variable that will increase as more posts are made
 
     //TODO:Add point system to Posts
     public Post(Entity creator,String title,String body){
@@ -41,12 +41,51 @@ public class Post {
     public String getTime(){
         return this.time;
     }
-    public Entity getCreator(){
-        return this.creator;
+
+    public void setTitle(String title) {
+        this.title = title;
     }
-    public int getMyPostID(){
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setCreator(Entity creator) {
+        this.creator = creator;
+    }
+
+    public void setMyPostID(long myPostID) {
+        this.myPostID = myPostID;
+    }
+
+    public void setAgree(int agree) {
+        this.agree = agree;
+    }
+
+    public void setDisagree(int disagree) {
+        this.disagree = disagree;
+    }
+
+    public static void setPostID(long postID) {
+        Post.postID = postID;
+    }
+
+    public long getMyPostID(){
         return this.myPostID;
     }
+
+    public Entity getCreator() {
+        return creator;
+    }
+
+    public static long getPostID() {
+        return postID;
+    }
+
     public void increaseAgree(){
         agree++;
     }

@@ -1,5 +1,6 @@
 package com.shannor.theloyaltynetwork.mangers;
 
+import com.shannor.theloyaltynetwork.model.Entity;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class PostManager{
         }
         return instance;
     }
-    public void addContent(User user, String title, String body){
+    public void addContent(Entity user, String title, String body){
         Post post = new Post(user,title,body);
         //TODO: When server is added make sure it adds to front
         //Add to front
@@ -32,7 +33,7 @@ public class PostManager{
     public void createTestContent(int amount){
         if (postList.isEmpty()){
             for(int i = 0; i < amount; i++) {
-                addContent(new User("Test" + i), "Title" + i, "Body!" + i);
+//                addContent(new User("Test" + i), "Title" + i, "Body!" + i);
             }
         }
     }

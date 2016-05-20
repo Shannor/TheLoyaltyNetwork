@@ -16,8 +16,11 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
+import com.shannor.theloyaltynetwork.model.User;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 
 
@@ -29,16 +32,20 @@ public class MainActivity extends AppCompatActivity {
     private SessionManager mSessionManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    private FirebaseDatabase database;
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
     //TODO: When clicking on a card open up the discussion
+
+    //TODO:remove Entity Class
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
 
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -56,12 +63,18 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        //TODO: See if User is in the user tree first
 
-        //First check if User has signed in
+        DatabaseReference userRef = database.getReference("users");
+        User temp = new User("Shannor");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            userRef.child(user.getUid()).setValue(temp);
+            //TODO: Ask user for their display name
+        }
+
+
         mSessionManager = new SessionManager(this);
-        //If they are logged in Continue
-//        mSessionManager.checkLogin();
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
