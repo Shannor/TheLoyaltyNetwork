@@ -1,6 +1,8 @@
 package com.shannor.theloyaltynetwork.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,10 +11,10 @@ import java.util.Map;
  * This Class will most likely be expanded in the future.
  */
 public class User {
-    private Map<Group,Boolean> affiliations;
+    private List<Group> affiliations;
     private String name;
     private long totalPointsEarned;
-    private Map<Post,Boolean> postList;
+    private List<Post> postList;
     private String mission;
 
     public User(){
@@ -21,8 +23,8 @@ public class User {
     public User(String name){
         this.name = name;
         this.mission = null;
-        this.affiliations = new HashMap<>(); //Group ID's
-        this.postList = new HashMap<>(); //Post ID's
+        this.affiliations = new ArrayList<>(); //Group ID's
+        this.postList = new ArrayList<>(); //Post ID's
         this.totalPointsEarned = 0;
     }
 
@@ -50,19 +52,19 @@ public class User {
         this.totalPointsEarned = totalPointsEarned;
     }
 
-    public Map<Group, Boolean> getAffiliations() {
+    public List<Group> getAffiliations() {
         return affiliations;
     }
 
-    public void setAffiliations(Map<Group, Boolean> affiliations) {
+    public void setAffiliations(List<Group> affiliations) {
         this.affiliations = affiliations;
     }
 
-    public Map<Post, Boolean> getPostList() {
+    public List<Post> getPostList() {
         return postList;
     }
 
-    public void setPostList(Map<Post, Boolean> postList) {
+    public void setPostList(List<Post> postList) {
         this.postList = postList;
     }
 }

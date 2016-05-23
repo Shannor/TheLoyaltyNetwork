@@ -1,27 +1,39 @@
 package com.shannor.theloyaltynetwork.activities;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.model.User;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
+
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,36 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.d("Signed in", "onAuthStateChanged:signed_in:" + user.getUid());
-
-                } else {
-                    // User is signed out
-                    Log.d("Signed Out", "onAuthStateChanged:signed_out");
-                    Intent intent = new Intent(getBaseContext(),LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-        };
-
-        //TODO: See if User is in the user tree first
-
-        DatabaseReference userRef = database.getReference("users");
-        User temp = new User("Shannor");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
-            userRef.child(user.getUid()).setValue(temp);
-            //TODO: Ask user for their display name
-        }
-
-
         mSessionManager = new SessionManager(this);
+
+        checkLogin();
+        newMemberRequest();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -140,6 +127,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_logout){
             mSessionManager.logoutUser();
             FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getBaseContext(),LoginActivity.class);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -187,4 +177,84 @@ public class MainActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
+    /**
+     * Method to check if this is a first time visitor.
+     * Checks by looking into the database for the Uid
+     */
+    public void newMemberRequest(){
+        final DatabaseReference userRef = database.getReference("users");
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(mSessionManager.getUid())){
+                    User currentUser =  dataSnapshot.child(mSessionManager.getUid()).getValue(User.class);
+                    mSessionManager.setUsername(currentUser.getName());
+
+                }else{
+                    //Dialog to set add New User to the Database
+                    Dialog d = inputDialog(userRef);
+                    d.show();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("DataBase error",databaseError.toString());
+            }
+        });
+    }
+
+    public void checkLogin(){
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d("Signed in", "onAuthStateChanged:signed_in:" + user.getUid());
+                    mSessionManager.setUid(user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d("Signed Out", "onAuthStateChanged:signed_out");
+                    Intent intent = new Intent(getBaseContext(),LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+    }
+
+    public Dialog inputDialog(final DatabaseReference userRef){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose your username.");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        input.setTextColor(Color.BLACK);
+        input.setHint("TheBest742");
+        builder.setView(input);
+        //TODO: Check database that userName doesn't already Exist
+        //TODO: Check if userName follows some rule
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String userName = input.getText().toString();
+                //Valid String check
+                if (!userName.isEmpty()) {
+                    mSessionManager.setUsername(userName);
+                    User newUser = new User(userName);
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        userRef.child(user.getUid()).setValue(newUser);
+                    }
+                }
+            }
+        });
+        return builder.create();
+    }
+
 }

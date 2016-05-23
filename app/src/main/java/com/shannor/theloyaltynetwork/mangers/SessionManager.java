@@ -30,16 +30,10 @@ public class SessionManager {
     //Share Pref, File Name
     private static final String PREF_NAME = "UserLoginInformation";
 
-    //Key for login status
-    private static final String IS_LOGIN = "isLoggedIn";
-
     //Save this, but Use Email to find user name with database
-    public static final String KEY_NAME = "name";
+    public static final String KEY_USERNAME = "userName";
 
-    public static final String KEY_EMAIL = "email";
-
-    public static final String KEY_USER_OBJECT = "user";
-
+    public static final String KEY_UID = "uid";
 
     //Constructor
     public SessionManager(Context context){
@@ -49,76 +43,35 @@ public class SessionManager {
     }
 
     /**
-     * Method to start the Login session and save the email.
-     * @param email User's personal Email
-     */
-    public void createLoginSession(String email){
-        editor.clear();
-        editor.putBoolean(IS_LOGIN,true);
-        editor.putString(KEY_EMAIL,email);
-        editor.commit();
-    }
-
-    /**
      * Method to set the Current User name
      * MMakes sure that email has already been set
      * @param name current User Name
      */
-    public void setUserName(String name){
-        if (pref.getString(KEY_EMAIL,null) != null){
-            editor.putString(KEY_NAME,name);
-            editor.commit();
-        }
-    }
-
-    /**
-     * Method to add the User object to shard Pref.
-     * @param userObject current User object
-     */
-    public void setUserObject(User userObject){
-        Gson gson = new Gson();
-        String json = gson.toJson(userObject); // myObject - instance of MyObject
-        editor.putString(KEY_USER_OBJECT, json);
+    public void setUsername(String name){
+        editor.putString(KEY_USERNAME,name);
         editor.commit();
     }
+
+    public void setUid(String uid){
+        editor.putString(KEY_UID,uid);
+        editor.commit();
+    }
+
+    public String getUsername() {
+        return pref.getString(KEY_USERNAME,null);
+    }
+
+    public String getUid() {
+        return pref.getString(KEY_UID,null);
+    }
+
 
     /**
      * Clears the Users information,
      * then redirect them to the Login Activity.
      */
-
     public void logoutUser(){
         editor.clear();
         editor.commit();
-
-        Intent intent = new Intent(mContext,LoginActivity.class);
-        mContext.startActivity(intent);
-    }
-    /**
-     * Gets the Users Email.
-     * If expand in future can change to a HashMap and return more information,
-     * about the User.
-     * @return User Email or null.
-     */
-    public String getUserEmail(){
-        return pref.getString(KEY_EMAIL,null);
-    }
-
-    /**
-     * Getter to check the login status.
-     * @return true or false.
-     */
-    public boolean isLoggedIn(){
-        return pref.getBoolean(IS_LOGIN, false);
-    }
-
-    /**
-     * Getter to get the User Object Saved.
-     * @return Current User
-     */
-    public User getUser(){
-        Gson gson = new Gson();
-        String json = pref.getString(KEY_USER_OBJECT,null);
-        return gson.fromJson(json, User.class);
     }
 }
