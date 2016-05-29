@@ -31,8 +31,8 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mNameText = (TextView)cardView.findViewById(R.id.user_name);
         mSubject = (TextView)cardView.findViewById(R.id.subject_title);
         mTime = (TextView)cardView.findViewById(R.id.time_text);
-        mBody = (TextView)cardView.findViewById(R.id.summary);
-        mPosts = (TextView)cardView.findViewById(R.id.post_standing);
+        mBody = (TextView)cardView.findViewById(R.id.subject_body);
+        mPosts = (TextView)cardView.findViewById(R.id.post_points);
     }
 
 //    TODO: Needs an object to take in the bind to the view
@@ -40,7 +40,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         //Binds this specific post the the Recycler View
         mNameText.setText(post.getUserName());
         mSubject.setText(post.getTitle());
-//        mTime.setText(post.getLongTimeStamp());
+        mTime.setText(post.getTime());
         mBody.setText(post.getBody());
 //        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }

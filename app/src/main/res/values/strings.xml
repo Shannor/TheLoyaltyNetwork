@@ -33,4 +33,9 @@
     <string name="confirm_creating_account">Join Us!</string>
     <string name="password_requirements">* Password needs: 1 Capital, 1 Lowercase, 1 Special character, 1 number and at least 8 characters long.</string>
 
+    <string name="post_layout_user">User:</string>
+    <string name="post_layout_title">Title:</string>
+    <string name="post_layout_time">Time</string>
+    <string name="post_layout_body">Body of post</string>
+    <string name="post_layout_points">Points</string>
 </resources>

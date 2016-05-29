@@ -1,9 +1,11 @@
 package com.shannor.theloyaltynetwork.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.ServerValue;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,11 +69,17 @@ public class Post {
         this.timeStamp = timeStamp;
     }
 
-    @JsonIgnore
+    @Exclude
     public long getLongTimeStamp(){
         return this.timeStamp;
     }
 
+    @Exclude
+    public String getTime(){
+        Date date = new Date(getLongTimeStamp());
+        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
+        return dateFormat.format(date);
+    }
     public void setTitle(String title) {
         this.title = title;
     }

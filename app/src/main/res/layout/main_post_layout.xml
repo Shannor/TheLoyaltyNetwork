@@ -23,14 +23,17 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User:"
+                android:text="@string/post_layout_user"
                 android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/subject_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title:"
+                android:maxLines="1"
+                android:maxLength="50"
+                android:ellipsize="end"
+                android:text="@string/post_layout_title"
                 android:layout_below="@+id/user_name"
                 android:layout_centerHorizontal="true" />
 
@@ -38,16 +41,19 @@
                 android:id="@+id/time_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time"
-                android:layout_alignParentTop="true"
+                android:text="@string/post_layout_time"
+                android:layout_alignTop="@+id/post_points"
                 android:layout_alignParentEnd="true" />
 
             <TextView
-                android:id="@+id/summary"
+                android:id="@+id/subject_body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:maxLength="100"
+                android:ellipsize="end"
                 android:singleLine="false"
-                android:text="Body post"
+                android:text="@string/post_layout_body"
                 android:layout_below="@+id/subject_title"
                 android:layout_alignParentStart="true" />
 
@@ -55,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Points"
-                android:id="@+id/post_standing"
+                android:text="@string/post_layout_points"
+                android:id="@+id/post_points"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignStart="@+id/user_name" />
 
 
         </RelativeLayout>
