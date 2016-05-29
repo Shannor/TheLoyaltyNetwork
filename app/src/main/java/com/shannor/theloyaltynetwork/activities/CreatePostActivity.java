@@ -96,6 +96,7 @@ public class CreatePostActivity extends AppCompatActivity {
                             user.setPostList(new ArrayList<String>());
                             user.getPostList().add(key);
                         }else{
+                            //Adds the Recent post in front
                             user.getPostList().add(key);
                         }
                         userRef.child(mSessionManager.getUid()).updateChildren(user.toMap());

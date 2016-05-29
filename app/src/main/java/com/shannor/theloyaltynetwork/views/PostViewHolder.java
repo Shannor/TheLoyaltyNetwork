@@ -42,6 +42,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mSubject.setText(post.getTitle());
 //        mTime.setText(post.getLongTimeStamp());
         mBody.setText(post.getBody());
-        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
+//        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }
 }

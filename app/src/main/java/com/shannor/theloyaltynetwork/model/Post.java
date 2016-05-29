@@ -25,6 +25,9 @@ public class Post {
     static private long postID = 0; //Class level variable that will increase as more posts are made
     private long timeStamp;
 
+    public Post(){
+        //Empty Constructor for Firebase
+    }
     public Post(String userName,String title,String body){
 
         this.userName = userName;
