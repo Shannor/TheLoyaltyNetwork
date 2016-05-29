@@ -39,11 +39,11 @@ public class MainFeedFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_main_feed, container, false);
-        mPostManager.createTestContent(6);
+//        mPostManager.createTestContent(6);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mainFeed);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mPostAdapter = new PostAdapter(mPostManager.getContents());
+//        mPostAdapter = new PostAdapter(mPostManager.getContents());
         mRecyclerView.setAdapter(mPostAdapter);
         return view;
     }

@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,8 +32,6 @@ import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.model.User;
 import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 
-import java.util.Map;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
     private SessionManager mSessionManager;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase database;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
     //TODO: When clicking on a card open up the discussion
@@ -54,11 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
         mSessionManager = new SessionManager(this);
-
         checkLogin();
         newMemberRequest();
 

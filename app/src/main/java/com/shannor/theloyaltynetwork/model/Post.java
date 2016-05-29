@@ -1,6 +1,12 @@
 package com.shannor.theloyaltynetwork.model;
 
-import java.util.Calendar;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Created by Shannor on 10/25/2015.
@@ -11,20 +17,30 @@ public class Post {
 
     private String title;
     private String body;
-    private String time;
-    private Entity creator;
+    private String uID; // For Users and Groups
+    private String userName; // Groups and Users Name
     private long myPostID;
     private int agree = 0;
     private int disagree = 0;
     static private long postID = 0; //Class level variable that will increase as more posts are made
+    private long timeStamp;
 
-    //TODO:Add point system to Posts
-    public Post(Entity creator,String title,String body){
+    public Post(String userName,String title,String body){
 
+        this.userName = userName;
         this.title = title;
-        this.creator = creator;
         this.body = body;
-        this.time = calculateTime();
+        this.myPostID = postID++;
+        this.agree = 0;
+        this.disagree = 0;
+    }
+
+    public Post(String userName ,String uID, String title,String body){
+
+        this.userName = userName;
+        this.uID = uID;
+        this.title = title;
+        this.body = body;
         this.myPostID = postID++;
         this.agree = 0;
         this.disagree = 0;
@@ -38,8 +54,19 @@ public class Post {
     public String getBody(){
         return this.body;
     }
-    public String getTime(){
-        return this.time;
+
+
+    public Map<String, String> getTimeStamp() {
+        return ServerValue.TIMESTAMP;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    @JsonIgnore
+    public long getLongTimeStamp(){
+        return this.timeStamp;
     }
 
     public void setTitle(String title) {
@@ -48,14 +75,6 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public void setCreator(Entity creator) {
-        this.creator = creator;
     }
 
     public void setMyPostID(long myPostID) {
@@ -78,8 +97,20 @@ public class Post {
         return this.myPostID;
     }
 
-    public Entity getCreator() {
-        return creator;
+    public String getuID() {
+        return uID;
+    }
+
+    public void setuID(String uID) {
+        this.uID = uID;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public static long getPostID() {
@@ -92,34 +123,15 @@ public class Post {
     public void increaseDisagree(){
         disagree++;
     }
-    private String calculateTime(){
-        String timeOFDay;
-        String minute;
-        Calendar cal = Calendar.getInstance();
 
-        Integer Hour = cal.get(Calendar.AM_PM) + cal.get(Calendar.HOUR);
-        Integer Minute =  cal.get(Calendar.MINUTE);
+    @Exclude
+    public Map<String,Object> toMap(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("userName",userName);
+        map.put("uID",uID);
+        map.put("title",title);
 
-        //Adding zero if single digit time
-        if (Minute < 10){
-            minute = "0" + Minute.toString();
-        }else {
-            minute = Minute.toString();
-        }
-        //AM or PM check
-        if (cal.get(Calendar.HOUR_OF_DAY) > 12){
-            timeOFDay = " PM";
-        }else {
-            timeOFDay = " AM";
-        }
-        //Midnight edge case
-        if (Hour == 0){
-            Hour = 12;
-        }
-
-        return Hour.toString() + ":" + minute + timeOFDay;
-
-
+        return map;
     }
 
 }

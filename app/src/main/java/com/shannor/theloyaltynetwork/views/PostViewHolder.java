@@ -38,9 +38,9 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 //    TODO: Needs an object to take in the bind to the view
     public void bindTopic(Post post){
         //Binds this specific post the the Recycler View
-        mNameText.setText(post.getCreator().getName());
+        mNameText.setText(post.getUserName());
         mSubject.setText(post.getTitle());
-        mTime.setText(post.getTime());
+//        mTime.setText(post.getLongTimeStamp());
         mBody.setText(post.getBody());
         mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }

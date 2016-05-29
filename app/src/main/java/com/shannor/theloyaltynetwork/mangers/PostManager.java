@@ -1,8 +1,8 @@
 package com.shannor.theloyaltynetwork.mangers;
 
-import com.shannor.theloyaltynetwork.model.Entity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shannor.theloyaltynetwork.model.Post;
-import com.shannor.theloyaltynetwork.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +14,8 @@ import java.util.List;
 public class PostManager{
 
     private static PostManager instance = null ;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference postRef = database.getReference("posts");
     private List<Post> postList = new ArrayList<>();
 
     private PostManager(){}
@@ -24,19 +26,10 @@ public class PostManager{
         }
         return instance;
     }
-    public void addContent(Entity user, String title, String body){
-        Post post = new Post(user,title,body);
-        //TODO: When server is added make sure it adds to front
-        //Add to front
-        postList.add(0, post);
-    }
-    public void createTestContent(int amount){
-        if (postList.isEmpty()){
-            for(int i = 0; i < amount; i++) {
-//                addContent(new User("Test" + i), "Title" + i, "Body!" + i);
-            }
-        }
+
+    public void addPost(Post newPost){
+
     }
 
-    public List<Post> getContents(){ return postList;}
+
 }

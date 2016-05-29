@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,10 +16,18 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.mangers.PostManager;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
+import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
+
+import java.util.ArrayList;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -25,6 +35,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private EditText title;
     private EditText body;
     private AlertDialog.Builder builder;
+    private SessionManager mSessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,8 @@ public class CreatePostActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_post);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mSessionManager = new SessionManager(this);
 
         title = (EditText) findViewById(R.id.post_title_view);
         body = (EditText)findViewById(R.id.post_body_view);
@@ -67,12 +80,40 @@ public class CreatePostActivity extends AppCompatActivity {
             //Set Alert Box to show information
             AlertDialog dialog = builder.create();
             //Error check to make sure nothing is empty
-            if (title.getText().toString().isEmpty() || body.getText().toString().isEmpty()){
+            String title2 = title.getText().toString();
+            String body2 = body.getText().toString();
+            if (title2.isEmpty() || body2.isEmpty()){
                 dialog.show();
             }else {
-                //TODO: Add current user functionality
                 //Just show a substring of the Body text
-//                postManager.addContent(new User("Test"),title.getText().toString(),body.getText().toString());
+                final Post post = new Post(mSessionManager.getUsername(),mSessionManager.getUid(),title2,body2);
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference postRef = database.getReference("posts");
+                final DatabaseReference userRef = database.getReference("users");
+
+
+                userRef.child(mSessionManager.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String key = postRef.push().getKey();
+
+                        User user = dataSnapshot.getValue(User.class);
+                        if (user.getPostList() == null){
+                            user.setPostList(new ArrayList<String>());
+                            user.getPostList().add(key);
+                        }else{
+                            user.getPostList().add(key);
+                        }
+                        userRef.child(mSessionManager.getUid()).updateChildren(user.toMap());
+                        postRef.child(key).setValue(post);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("Post Error",databaseError.toString());
+                    }
+                });
+
                 setResult(Activity.RESULT_OK);
                 finish();
             }

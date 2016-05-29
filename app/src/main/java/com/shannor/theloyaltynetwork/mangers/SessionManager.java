@@ -65,7 +65,6 @@ public class SessionManager {
         return pref.getString(KEY_UID,null);
     }
 
-
     /**
      * Clears the Users information,
      * then redirect them to the Login Activity.
