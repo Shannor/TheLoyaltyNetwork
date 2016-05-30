@@ -5,8 +5,10 @@ import com.google.firebase.database.ServerValue;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -21,11 +23,11 @@ public class Post {
     private String body;
     private String uID; // For Users and Groups
     private String userName; // Groups and Users Name
-    private long myPostID;
+    private String myPostID;
     private int agree = 0;
     private int disagree = 0;
-    static private long postID = 0; //Class level variable that will increase as more posts are made
     private long timeStamp;
+    private List<Post> replies;
 
     public Post(){
         //Empty Constructor for Firebase
@@ -35,9 +37,9 @@ public class Post {
         this.userName = userName;
         this.title = title;
         this.body = body;
-        this.myPostID = postID++;
         this.agree = 0;
         this.disagree = 0;
+        this.replies = new ArrayList<>();
     }
 
     public Post(String userName ,String uID, String title,String body){
@@ -46,9 +48,9 @@ public class Post {
         this.uID = uID;
         this.title = title;
         this.body = body;
-        this.myPostID = postID++;
         this.agree = 0;
         this.disagree = 0;
+        this.replies = new ArrayList<>();
     }
 
     public int getAgree(){return this.agree;}
@@ -69,7 +71,16 @@ public class Post {
         this.timeStamp = timeStamp;
     }
 
+    public List<Post> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Post> replies) {
+        this.replies = replies;
+    }
+
     @Exclude
+
     public long getLongTimeStamp(){
         return this.timeStamp;
     }
@@ -88,7 +99,7 @@ public class Post {
         this.body = body;
     }
 
-    public void setMyPostID(long myPostID) {
+    public void setMyPostID(String myPostID) {
         this.myPostID = myPostID;
     }
 
@@ -100,11 +111,7 @@ public class Post {
         this.disagree = disagree;
     }
 
-    public static void setPostID(long postID) {
-        Post.postID = postID;
-    }
-
-    public long getMyPostID(){
+    public String getMyPostID(){
         return this.myPostID;
     }
 
@@ -122,10 +129,6 @@ public class Post {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public static long getPostID() {
-        return postID;
     }
 
     public void increaseAgree(){

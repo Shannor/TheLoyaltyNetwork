@@ -38,4 +38,5 @@
     <string name="post_layout_time">Time</string>
     <string name="post_layout_body">Body of post</string>
     <string name="post_layout_points">Points</string>
+    <string name="title_activity_detail_post">DetailPostActivity</string>
 </resources>

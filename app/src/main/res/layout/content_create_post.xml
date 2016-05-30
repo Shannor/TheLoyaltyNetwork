@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/post_title_view"
+            android:inputType="textAutoComplete|textLongMessage"
             android:hint="@string/post_title" />
 
     </android.support.design.widget.TextInputLayout>

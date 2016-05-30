@@ -2,10 +2,12 @@ package com.shannor.theloyaltynetwork.views;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.model.Group;
@@ -35,7 +37,6 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mPosts = (TextView)cardView.findViewById(R.id.post_points);
     }
 
-//    TODO: Needs an object to take in the bind to the view
     public void bindTopic(Post post){
         //Binds this specific post the the Recycler View
         mNameText.setText(post.getUserName());
@@ -44,4 +45,5 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mBody.setText(post.getBody());
 //        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }
+
 }

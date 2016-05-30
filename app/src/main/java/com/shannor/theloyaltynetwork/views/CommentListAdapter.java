@@ -1,46 +1,39 @@
 package com.shannor.theloyaltynetwork.views;
 
 import android.content.Context;
-import android.provider.ContactsContract;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.model.Post;
-import com.shannor.theloyaltynetwork.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Shannor on 10/24/2015.
- * The adapter for the RecyclerView for the Posts being shown
+ * Created by shannortrotty on 5/29/16.
  */
-public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
+public class CommentListAdapter extends ArrayAdapter<Post> {
 
-    private List<Post> postList;
+    private List<Post> commentsList;
     private List<String> mKeys;
-    private Context context;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private Query postRef;
 
-
-    //Constructor
-    public PostAdapter(final Context context){
-        this.postList = new ArrayList<>();
-        this.mKeys = new ArrayList<>();
-        this.context = context;
-        postRef = database.getReference("posts").limitToFirst(100);
+    public CommentListAdapter(Context context, int textViewResourceId, String postID) {
+        super(context, textViewResourceId);
+        commentsList = new ArrayList<>();
+        mKeys = new ArrayList<>();
+        //TODO:Get the correct ref to the database for the comments
+        DatabaseReference postRef = database.getReference("posts").child(postID);
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -54,24 +47,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                 //Insert into the correct location, based on previousChildName
                 //Currently putting all the post at the beginning because Firebase doesn't support
                 //Descending order yet
-                postList.add(0,post);
-                mKeys.add(0,key);
-//                if (previousChildName == null) {
-//                    postList.add(0,post);
-//                    mKeys.add(0, key);
-//                } else {
-//                    int previousIndex = mKeys.indexOf(previousChildName);
-//                    int nextIndex = previousIndex + 1;
-//                    //Last item
-//                    if (nextIndex == postList.size()) {
-//                        postList.add(0,post);
-//                        mKeys.add(0,key);
-//                    } else {
-//                        //In the middle
-//                        postList.add(0, post);
-//                        mKeys.add(0, key);
-//                    }
-//                }
+
+                if (previousChildName == null) {
+                    commentsList.add(0,post);
+                    mKeys.add(0, key);
+                } else {
+                    int previousIndex = mKeys.indexOf(previousChildName);
+                    int nextIndex = previousIndex + 1;
+                    //Last item
+                    if (nextIndex == commentsList.size()) {
+                        commentsList.add(0,post);
+                        mKeys.add(0,key);
+                    } else {
+                        //In the middle
+                        commentsList.add(0, post);
+                        mKeys.add(0, key);
+                    }
+                }
                 notifyDataSetChanged();
             }
 
@@ -85,7 +77,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                 String postKey = dataSnapshot.getKey();
 
                 int index = mKeys.indexOf(postKey);
-                postList.set(index, newPost);
+                commentsList.set(index, newPost);
                 notifyDataSetChanged();
             }
 
@@ -99,7 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                 int index = mKeys.indexOf(postKey);
 
                 mKeys.remove(index);
-                postList.remove(index);
+                commentsList.remove(index);
                 notifyDataSetChanged();
             }
 
@@ -112,19 +104,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                 Post movedPost = dataSnapshot.getValue(Post.class);
                 String postKey = dataSnapshot.getKey();
                 int index = mKeys.indexOf(postKey);
-                postList.remove(index);
+                commentsList.remove(index);
                 mKeys.remove(index);
                 if (previousChildName == null) {
-                    postList.add(0, movedPost);
+                    commentsList.add(0, movedPost);
                     mKeys.add(0, postKey);
                 } else {
                     int previousIndex = mKeys.indexOf(previousChildName);
                     int nextIndex = previousIndex + 1;
-                    if (nextIndex == postList.size()) {
-                        postList.add(movedPost);
+                    if (nextIndex == commentsList.size()) {
+                        commentsList.add(movedPost);
                         mKeys.add(postKey);
                     } else {
-                        postList.add(nextIndex, movedPost);
+                        commentsList.add(nextIndex, movedPost);
                         mKeys.add(nextIndex, postKey);
                     }
                 }
@@ -140,29 +132,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
     }
 
     @Override
-    public PostViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.main_post_layout, parent, false);
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        return new PostViewHolder(view);
+        View v = convertView;
+
+        if (v == null) {
+            LayoutInflater vi;
+            vi = LayoutInflater.from(getContext());
+
+            v = vi.inflate(R.layout.comment_post_layout, null);
+        }
+
+        Post p = getItem(position);
+
+        if (p != null) {
+            TextView userName = (TextView) v.findViewById(R.id.reply_user_name);
+            TextView response = (TextView) v.findViewById(R.id.reply_response);
+            TextView timeStamp = (TextView) v.findViewById(R.id.reply_time_stamp);
+
+            if (userName != null) {
+                userName.setText(p.getUserName());
+            }
+
+            if (response != null) {
+                response.setText(p.getBody());
+            }
+
+            if (timeStamp != null) {
+                timeStamp.setText(p.getTime());
+            }
+        }
+
+        return v;
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public void onBindViewHolder(PostViewHolder holder, int pos) {
-        holder.bindTopic(postList.get(pos));
-    }
-
-    @Override
-    public int getItemCount(){
-        return postList.size();
-    }
-
-    public Post getPost(int position){
-        return postList.get(position);
-    }
 }

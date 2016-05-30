@@ -100,6 +100,7 @@ public class CreatePostActivity extends AppCompatActivity {
                             user.getPostList().add(key);
                         }
                         userRef.child(mSessionManager.getUid()).updateChildren(user.toMap());
+                        post.setMyPostID(key);
                         postRef.child(key).setValue(post);
                     }
 
