@@ -86,11 +86,12 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onPageSelected(int position) {
-                if(position == 0){
-                    fab.show();
-                }else{
-                    fab.hide();
-                }
+//                if(position == 0){
+//                    fab.show();
+//                }else{
+//                    fab.hide();
+//                }
+                fab.hide();
             }
 
             @Override

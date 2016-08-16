@@ -30,17 +30,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
 
     private List<Post> postList;
     private List<String> mKeys;
-    private Context context;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private Query postRef;
-
 
     //Constructor
-    public PostAdapter(final Context context){
+    public PostAdapter(){
         this.postList = new ArrayList<>();
         this.mKeys = new ArrayList<>();
-        this.context = context;
-        postRef = database.getReference("posts").limitToFirst(100);
+        Query postRef = database.getReference("posts").limitToFirst(100);
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override

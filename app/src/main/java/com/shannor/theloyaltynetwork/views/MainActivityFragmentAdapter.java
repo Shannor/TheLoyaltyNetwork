@@ -5,9 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.internal.GetServiceRequest;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
-import com.shannor.theloyaltynetwork.fragments.TopGroupsFragment;
+import com.shannor.theloyaltynetwork.fragments.GroupFragment;
 
 /**
  * Created by Shannor on 12/24/2015.
@@ -17,7 +18,8 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
 
         String[] fragmentTitles = {
                 "Main Feed",
-                "Top Groups"
+                "Top Groups",
+                "My Groups"
         };
 
         Fragment mCurrentFragment = null;
@@ -32,7 +34,10 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
                 case 0:
                     return new MainFeedFragment();
                 case 1:
-                    return TopGroupsFragment.newInstance(R.layout.fragment_top_groups, R.id.top_group_feed);
+                    return GroupFragment.newInstance(R.layout.fragment_top_groups, R.id.top_group_feed, "TopGroups");
+                case 2:
+//                    I think it has to be different
+                    return GroupFragment.newInstance(R.layout.fragment_top_groups, R.id.top_group_feed, "MyGroups");
             }
             return null;
         }
