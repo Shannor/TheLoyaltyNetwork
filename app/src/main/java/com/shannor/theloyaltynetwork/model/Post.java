@@ -17,6 +17,7 @@ import java.util.Map;
  * Object that will be passed into the Post Adapter and ViewHolder
  * Holds the information for what a post needs
  */
+//TODO: Make it so the time shows the difference since being posted ie(same day = 6:40, different day 10/21/2016)
 public class Post {
 
     private String title;

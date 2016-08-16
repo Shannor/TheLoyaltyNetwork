@@ -32,8 +32,7 @@ public class CommentListAdapter extends ArrayAdapter<Post> {
         super(context, textViewResourceId);
         commentsList = new ArrayList<>();
         mKeys = new ArrayList<>();
-        //TODO:Get the correct ref to the database for the comments
-        DatabaseReference postRef = database.getReference("posts").child(postID);
+        DatabaseReference postRef = database.getReference("posts").child(postID).child("replies");
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -44,9 +43,6 @@ public class CommentListAdapter extends ArrayAdapter<Post> {
                 Post post = dataSnapshot.getValue(Post.class);
                 String key = dataSnapshot.getKey();
 
-                //Insert into the correct location, based on previousChildName
-                //Currently putting all the post at the beginning because Firebase doesn't support
-                //Descending order yet
 
                 if (previousChildName == null) {
                     commentsList.add(0,post);
@@ -56,12 +52,12 @@ public class CommentListAdapter extends ArrayAdapter<Post> {
                     int nextIndex = previousIndex + 1;
                     //Last item
                     if (nextIndex == commentsList.size()) {
-                        commentsList.add(0,post);
-                        mKeys.add(0,key);
+                        commentsList.add(post);
+                        mKeys.add(key);
                     } else {
                         //In the middle
-                        commentsList.add(0, post);
-                        mKeys.add(0, key);
+                        commentsList.add(previousIndex, post);
+                        mKeys.add(previousIndex, key);
                     }
                 }
                 notifyDataSetChanged();
@@ -166,4 +162,18 @@ public class CommentListAdapter extends ArrayAdapter<Post> {
         return v;
     }
 
+    @Override
+    public int getCount() {
+        return commentsList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public Post getItem(int position) {
+        return commentsList.get(position);
+    }
 }

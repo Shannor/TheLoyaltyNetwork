@@ -99,6 +99,7 @@ public class CreatePostActivity extends AppCompatActivity {
                             //Adds the Recent post in front
                             user.getPostList().add(key);
                         }
+                        //TODO: Make Atomic, google shows how use map
                         userRef.child(mSessionManager.getUid()).updateChildren(user.toMap());
                         post.setMyPostID(key);
                         postRef.child(key).setValue(post);
