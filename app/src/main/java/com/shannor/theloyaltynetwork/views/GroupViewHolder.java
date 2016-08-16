@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.model.Group;
 
+import java.util.Locale;
+
 /**
  * Created by Shannor on 1/6/2016.
  * View Holder for the RecyclerView in the Group Tab
@@ -36,8 +38,8 @@ public class GroupViewHolder extends RecyclerView.ViewHolder{
     public void bindTopic(Group group){
         //Binds this specific post the the Recycler View
         mGroupName.setText(group.getName());
-        mNumberOfPosts.setText((String.format("%s %d",textTitles[0],group.getNumPosts())));
-        mTotalMembers.setText(String.format("%s %d",textTitles[1],group.getTotalMembers()));
-        mGroupRating.setText(String.format("%s %d",textTitles[2],group.getTotalPointsEarned()));
+        mNumberOfPosts.setText((String.format(Locale.getDefault(),"%s %d",textTitles[0],group.getNumPosts())));
+        mTotalMembers.setText(String.format(Locale.getDefault(),"%s %d",textTitles[1],group.getTotalMembers()));
+        mGroupRating.setText(String.format(Locale.getDefault(),"%s %d",textTitles[2],group.getTotalPointsEarned()));
     }
 }

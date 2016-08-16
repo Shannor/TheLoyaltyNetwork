@@ -36,6 +36,7 @@ import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 public class MainActivity extends AppCompatActivity {
 
     static final int CREATE_POST_REQUEST = 1;  // The request code for resultActivity
+    static final int CREATE_GROUP_REQUREST = 2;
 
     private FloatingActionButton fab;
     private SessionManager mSessionManager;
@@ -67,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initPost();
-            }
-        });
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                initPost();
+//            }
+//        });
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -86,12 +87,32 @@ public class MainActivity extends AppCompatActivity {
              */
             @Override
             public void onPageSelected(int position) {
-//                if(position == 0){
-//                    fab.show();
-//                }else{
-//                    fab.hide();
-//                }
-                fab.hide();
+                switch (position){
+                    case 0:
+                        fab.show();
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initPost();
+                            }
+                        });
+                        break;
+                    case 1:
+                        fab.show();
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                        break;
+                    case 2:
+                        fab.hide();
+                        break;
+                    default:
+                        fab.hide();
+                        break;
+                }
             }
 
             @Override
@@ -138,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,CREATE_POST_REQUEST);
     }
 
+    public void initGroup(){
+        Intent intent = new Intent(this,CreateGroupActivity.class);
+        startActivityForResult(intent,CREATE_GROUP_REQUREST);
+    }
     /**
      * Method designed to get the result from the CreatePostActivity.
      * If OK, will update the List
@@ -148,14 +173,20 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        //Checks from different results from actii
         if (requestCode == CREATE_POST_REQUEST) {
+            //If post was created successfully
             if(resultCode == Activity.RESULT_OK){
 
+            }else if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
             }
-//            if (resultCode == Activity.RESULT_CANCELED) {
-//                //Write your code if there's no result
-//            }
+        }else if (requestCode == CREATE_GROUP_REQUREST){
+            if (resultCode == RESULT_OK){
+
+            }else if(resultCode == RESULT_CANCELED){
+
+            }
         }
     }
 
