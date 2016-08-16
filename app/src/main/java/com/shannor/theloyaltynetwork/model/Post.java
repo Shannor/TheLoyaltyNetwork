@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -88,9 +89,15 @@ public class Post {
 
     @Exclude
     public String getTime(){
-        Date date = new Date(getLongTimeStamp());
-        DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
-        return dateFormat.format(date);
+        SimpleDateFormat compareFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        Date today = new Date();
+        Date postTime = new Date(getLongTimeStamp());
+        //Compare if Post was made in the same day
+        if(compareFormat.format(today).equals(compareFormat.format(postTime))) {
+            return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(postTime);
+        }else{
+            return new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(postTime);
+        }
     }
     public void setTitle(String title) {
         this.title = title;
