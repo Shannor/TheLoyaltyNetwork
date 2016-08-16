@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * Created by shannortrotty on 5/29/16.
+ * List adapter to hold the replies made per post
+ * Works with Firebase for content
  */
 public class CommentListAdapter extends ArrayAdapter<Post> {
 

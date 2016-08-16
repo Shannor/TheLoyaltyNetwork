@@ -39,4 +39,7 @@
     <string name="post_layout_body">Body of post</string>
     <string name="post_layout_points">Points</string>
     <string name="title_activity_detail_post">DetailPostActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

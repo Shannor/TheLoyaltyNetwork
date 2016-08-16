@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.shannor.theloyaltynetwork.R;
 import com.shannor.theloyaltynetwork.fragments.MainFeedFragment;
 import com.shannor.theloyaltynetwork.fragments.TopGroupsFragment;
 
@@ -31,7 +32,7 @@ public class MainActivityFragmentAdapter extends FragmentPagerAdapter {
                 case 0:
                     return new MainFeedFragment();
                 case 1:
-                    return new TopGroupsFragment();
+                    return TopGroupsFragment.newInstance(R.layout.fragment_top_groups, R.id.top_group_feed);
             }
             return null;
         }
