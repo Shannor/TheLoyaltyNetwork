@@ -23,6 +23,8 @@ import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreatePostActivity extends AppCompatActivity {
 
@@ -85,24 +87,27 @@ public class CreatePostActivity extends AppCompatActivity {
                 final DatabaseReference postRef = database.getReference("posts");
                 final DatabaseReference userRef = database.getReference("users");
 
-
+//              TODO: Make it so this works for groups and Users
                 userRef.child(mSessionManager.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final String key = postRef.push().getKey();
 
                         User user = dataSnapshot.getValue(User.class);
-                        if (user.getPostList() == null){
+                        //If user's first post
+                        if (user.getPostList().isEmpty()){
                             user.setPostList(new ArrayList<String>());
                             user.getPostList().add(key);
                         }else{
                             //Adds the Recent post in front
                             user.getPostList().add(key);
                         }
-                        //TODO: Make Atomic, google shows how use map
-                        userRef.child(mSessionManager.getUid()).updateChildren(user.toMap());
                         post.setMyPostID(key);
-                        postRef.child(key).setValue(post);
+
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/posts/" + key, post.toMap());
+                        childUpdates.put("/users/" + mSessionManager.getUid() + "/" , user.toMap());
+                        database.getReference().updateChildren(childUpdates);
                     }
 
                     @Override

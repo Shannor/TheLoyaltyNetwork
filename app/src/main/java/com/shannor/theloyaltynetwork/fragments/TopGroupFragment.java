@@ -1,7 +1,7 @@
 package com.shannor.theloyaltynetwork.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,19 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.mangers.GroupManager;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
 import com.shannor.theloyaltynetwork.views.GroupViewAdapter;
 
 
 public class TopGroupFragment extends Fragment {
 
-    private GroupManager groupManager = GroupManager.getInstance();
     private static final String ARG_PARAM1 = "layoutID";
     private static final String ARG_PARAM2 = "recyclerViewID";
-    private static final String ARG_PARAM3 = "groupFragmentType";
     //Variables to hold LayoutID and RecyclerView ID
     private int mLayoutID;
     private int mRecyclerViewID;
@@ -66,8 +63,7 @@ public class TopGroupFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view.findViewById(mRecyclerViewID);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        GroupViewAdapter mAdapter = new GroupViewAdapter(database.getReference("groups"));
+        GroupViewAdapter mAdapter = new GroupViewAdapter(FirebaseDatabase.getInstance().getReference("groups"));
         recyclerView.setAdapter(mAdapter);
 
         return view;

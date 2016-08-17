@@ -27,7 +27,7 @@ public class User {
     }
     public User(String name){
         this.name = name;
-        this.mission = null;
+        this.mission = "";
         this.affiliations = new ArrayList<>(); //Group ID's
         this.postList = new ArrayList<>(); //Post ID's
         this.totalPointsEarned = 0;
@@ -81,6 +81,14 @@ public class User {
         this.postList = postList;
     }
 
+    @Exclude
+    public boolean addAffiliation(String affilation){
+        return this.affiliations.add(affilation);
+    }
+    @Exclude
+    public boolean removeAffilation(String affilation){
+        return this.affiliations.remove(affilation);
+    }
 
     @Exclude
     public Map<String,Object> toMap(){
@@ -94,5 +102,9 @@ public class User {
         map.put("postList",postList);
 
         return map;
+    }
+    @Exclude
+    public int getNumberOfPosts(){
+        return postList.size();
     }
 }

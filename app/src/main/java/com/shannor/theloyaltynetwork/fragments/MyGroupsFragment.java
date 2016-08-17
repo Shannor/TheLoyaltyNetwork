@@ -66,9 +66,9 @@ public class MyGroupsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        GroupViewAdapter mAdapter = new GroupViewAdapter(database.getReference("users")
-                .child(mSessionManager.getUid()).child("affiliations"));
-        recyclerView.setAdapter(mAdapter);
+//        GroupViewAdapter mAdapter = new GroupViewAdapter(database.getReference("users")
+//                .child(mSessionManager.getUid()).child("affiliations"));
+//        recyclerView.setAdapter(mAdapter);
 
         return view;
     }

@@ -94,7 +94,7 @@ public class Post {
         Date postTime = new Date(getLongTimeStamp());
         //Compare if Post was made in the same day
         if(compareFormat.format(today).equals(compareFormat.format(postTime))) {
-            return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(postTime);
+            return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(postTime);
         }else{
             return new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(postTime);
         }
@@ -152,6 +152,12 @@ public class Post {
         map.put("userName",userName);
         map.put("uID",uID);
         map.put("title",title);
+        map.put("body",body);
+        map.put("myPostID",myPostID);
+        map.put("agree",agree);
+        map.put("disagree",disagree);
+        map.put("timeStamp",getTimeStamp());
+        map.put("replies",replies);
 
         return map;
     }

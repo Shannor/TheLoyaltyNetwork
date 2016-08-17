@@ -66,15 +66,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivityFragmentAdapter mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-
-
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                initPost();
-//            }
-//        });
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -102,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         fab.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                initGroup();
                             }
                         });
                         break;
@@ -173,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Checks from different results from actii
+        //Checks from different results from activities
         if (requestCode == CREATE_POST_REQUEST) {
             //If post was created successfully
             if(resultCode == Activity.RESULT_OK){
