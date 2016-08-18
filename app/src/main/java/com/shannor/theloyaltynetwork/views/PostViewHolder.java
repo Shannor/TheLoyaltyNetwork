@@ -16,6 +16,8 @@ import com.shannor.theloyaltynetwork.model.Group;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
+import java.util.Locale;
+
 /**
  * Created by Shannor on 10/24/2015.
  * Post View Holder to be used with the RecyclerView
@@ -51,7 +53,7 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mSubject.setText(post.getTitle());
         mTime.setText(post.getTime());
         mBody.setText(post.getBody());
-//        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
+        mPoints.setText(String.format(Locale.getDefault(),"%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }
 
     public Button getAgreeButton(){

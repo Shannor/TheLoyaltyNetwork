@@ -27,6 +27,7 @@ import com.shannor.theloyaltynetwork.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Shannor on 10/24/2015.
@@ -165,7 +166,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
         final Button agreeBtn = holder.getAgreeButton();
         final Button disagreeBtn = holder.getDisagreeButton();
         Button commentBtn = holder.getCommentsButton();
-        TextView pointsLabel = holder.getPointsLabel();
+        final TextView pointsLabel = holder.getPointsLabel();
 
         final DatabaseReference postref = database.getReference("posts").child(post.getMyPostID());
 
@@ -184,19 +185,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
         disagreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Start state, neither selected
-//                if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
-//                    setDisagree(true);
-//                }
-//                //Unselect Disagree
-//                else if(getDisagreeSelectionValue() && !getAgreeSelectionValue()){
-//                    setDisagree(false);
-//                }
-//                //Swap Disagree and Agree selection, only one selected at a time.
-//                else {
-//                    setAgree(false);
-//                    setDisagree(true);
-//                }
 
                 postref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -220,6 +208,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                         }
                         postref.child("disagree").setValue(serverSidePost.getDisagree());
                         postref.child("agree").setValue(serverSidePost.getAgree());
+                        pointsLabel.setText(String.format(Locale.getDefault(),"%s: %d | %s : %d","For",serverSidePost.getAgree()
+                                ,"Against",serverSidePost.getDisagree()));
 
                     }
 
@@ -234,20 +224,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
         agreeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                //Start state, neither selected
-//                if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
-//                    setAgree(true);
-//                }
-//                //Unselect Agree
-//                else if(getAgreeSelectionValue()&& !getDisagreeSelectionValue()){
-//                    setAgree(false);
-//                }
-//                //Swap Disagree and Agree selection, only one selected at a time.
-//                else {
-//                    setDisagree(false);
-//                    setAgree(true);
-//                }
 
                 postref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -272,6 +248,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
                         }
                         postref.child("agree").setValue(serverSidePost.getAgree());
                         postref.child("disagree").setValue(serverSidePost.getDisagree());
+                        pointsLabel.setText(String.format(Locale.getDefault(),"%s: %d | %s : %d","For",serverSidePost.getAgree(),
+                                "Against",serverSidePost.getDisagree()));
+
                     }
 
                     @Override
