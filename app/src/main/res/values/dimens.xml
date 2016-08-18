@@ -4,4 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="title_font_size">20sp</dimen>
+    <dimen name="leader_font_size">15sp</dimen>
 </resources>

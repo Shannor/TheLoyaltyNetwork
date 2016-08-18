@@ -37,11 +37,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     public PostViewHolder(View cardView){
         super(cardView);
         //Init of items needed for the CardView
-        mNameText = (TextView)cardView.findViewById(R.id.user_name);
-        mSubject = (TextView)cardView.findViewById(R.id.subject_title);
-        mTime = (TextView)cardView.findViewById(R.id.time_text);
-        mBody = (TextView)cardView.findViewById(R.id.subject_body);
-        mPoints = (TextView)cardView.findViewById(R.id.post_points);
+        mNameText = (TextView)cardView.findViewById(R.id.user_name_label);
+        mSubject = (TextView)cardView.findViewById(R.id.subject_title_label);
+        mTime = (TextView)cardView.findViewById(R.id.time_label);
+        mBody = (TextView)cardView.findViewById(R.id.subject_body_label);
+        mPoints = (TextView)cardView.findViewById(R.id.post_points_label);
         mAgreeBtn = (Button)cardView.findViewById(R.id.agree_btn);
         mDisagreeBtn = (Button)cardView.findViewById(R.id.disagree_btn);
         mCommentsBtn = (Button)cardView.findViewById(R.id.comments_btn);

@@ -1,9 +1,7 @@
 package com.shannor.theloyaltynetwork.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -21,9 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.activities.DetailPostActivity;
+import com.shannor.theloyaltynetwork.activities.CommentPostActivity;
 import com.shannor.theloyaltynetwork.model.Post;
-import com.shannor.theloyaltynetwork.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +170,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetailPostActivity.class);
+                Intent intent = new Intent(context, CommentPostActivity.class);
                 intent.putExtra("id",post.getMyPostID());
                 intent.putExtra("name",post.getUserName());
                 intent.putExtra("body",post.getBody());

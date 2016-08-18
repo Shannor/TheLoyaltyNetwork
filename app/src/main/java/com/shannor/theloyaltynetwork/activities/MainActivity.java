@@ -36,7 +36,7 @@ import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 public class MainActivity extends AppCompatActivity {
 
     static final int CREATE_POST_REQUEST = 1;  // The request code for resultActivity
-    static final int CREATE_GROUP_REQUREST = 2;
+    static final int CREATE_GROUP_REQUEST = 2;
 
     private FloatingActionButton fab;
     private SessionManager mSessionManager;
@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
-    //TODO: When clicking on a card open up the discussion
-
-    //TODO:remove Entity Class
-
+    //TODO: Implement Tag system for/against
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -73,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+//            TODO:Change fab icon based on which fragment it is on
             /**
              * Method used to change out Fab buttons or remove it all together.
              * @param position which fragment currently on
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void initGroup(){
         Intent intent = new Intent(this,CreateGroupActivity.class);
-        startActivityForResult(intent,CREATE_GROUP_REQUREST);
+        startActivityForResult(intent,CREATE_GROUP_REQUEST);
     }
     /**
      * Method designed to get the result from the CreatePostActivity.
@@ -173,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             }else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
-        }else if (requestCode == CREATE_GROUP_REQUREST){
+        }else if (requestCode == CREATE_GROUP_REQUEST){
             if (resultCode == RESULT_OK){
 
             }else if(resultCode == RESULT_CANCELED){

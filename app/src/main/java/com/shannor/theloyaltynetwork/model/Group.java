@@ -29,6 +29,9 @@ public class Group {
     private String leaderID;
     private List<String> adminsIDs;
     private List<String> followersIDs;
+    private List<String> supportTags; //Tags to show what the group supports
+    private List<String> againstTags;
+
     private int requirementForMember; // Will have defaults they can change later
     private int requirementForAdmin;
 

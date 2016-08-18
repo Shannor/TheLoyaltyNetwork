@@ -18,7 +18,6 @@ import java.util.Map;
  * Object that will be passed into the Post Adapter and ViewHolder
  * Holds the information for what a post needs
  */
-//TODO: Make it so the time shows the difference since being posted ie(same day = 6:40, different day 10/21/2016)
 public class Post {
 
     private String title;
@@ -150,18 +149,16 @@ public class Post {
 
     @Exclude
     public void decreaseAgree(){
-        if( agree - 1  > 0){
-            agree--;
-        }else{
+        agree--;
+        if (agree < 0){
             agree = 0;
         }
     }
 
     @Exclude
     public void decreaseDisagree(){
-        if ( disagree - 1 > 0){
-            disagree--;
-        }else{
+        disagree--;
+        if (disagree < 0){
             disagree = 0;
         }
     }

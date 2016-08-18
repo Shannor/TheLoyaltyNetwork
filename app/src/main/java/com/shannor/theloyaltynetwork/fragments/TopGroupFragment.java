@@ -63,7 +63,9 @@ public class TopGroupFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view.findViewById(mRecyclerViewID);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //TODO:Pass in Query class to only pick top 15 groups, based on #mems + #points
         GroupViewAdapter mAdapter = new GroupViewAdapter(FirebaseDatabase.getInstance().getReference("groups"));
+        //TODO:Implement the onclick to start new activity to view group in detail
         recyclerView.setAdapter(mAdapter);
 
         return view;

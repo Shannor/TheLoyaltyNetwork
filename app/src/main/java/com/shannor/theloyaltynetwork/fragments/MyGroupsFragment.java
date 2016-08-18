@@ -36,7 +36,6 @@ public class MyGroupsFragment extends Fragment {
      * @param recViewID Parameter 2.
      * @return A new instance of fragment MyGroupsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MyGroupsFragment newInstance(int layoutID, int recViewID) {
         MyGroupsFragment fragment = new MyGroupsFragment();
         Bundle args = new Bundle();
@@ -65,6 +64,7 @@ public class MyGroupsFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view.findViewById(mRecyclerViewID);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //TODO: Setup only showing user groups
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        GroupViewAdapter mAdapter = new GroupViewAdapter(database.getReference("users")
 //                .child(mSessionManager.getUid()).child("affiliations"));
