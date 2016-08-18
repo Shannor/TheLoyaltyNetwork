@@ -1,12 +1,16 @@
 package com.shannor.theloyaltynetwork.views;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -15,7 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shannor.theloyaltynetwork.R;
+import com.shannor.theloyaltynetwork.activities.DetailPostActivity;
 import com.shannor.theloyaltynetwork.model.Post;
 import com.shannor.theloyaltynetwork.model.User;
 
@@ -30,12 +36,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
 
     private List<Post> postList;
     private List<String> mKeys;
+    private Context context;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private boolean disagreeSelected =false;
+    private boolean agreesSelected = false;
 
     //Constructor
-    public PostAdapter(){
+    public PostAdapter(Context context){
         this.postList = new ArrayList<>();
         this.mKeys = new ArrayList<>();
+        this.context = context;
         Query postRef = database.getReference("posts").limitToFirst(100);
 
         ChildEventListener childEventListener = new ChildEventListener() {
@@ -149,8 +159,130 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(PostViewHolder holder, int pos) {
+    public void onBindViewHolder(PostViewHolder holder, final int pos) {
         holder.bindTopic(postList.get(pos));
+        final Post post = postList.get(pos);
+        final Button agreeBtn = holder.getAgreeButton();
+        final Button disagreeBtn = holder.getDisagreeButton();
+        Button commentBtn = holder.getCommentsButton();
+        TextView pointsLabel = holder.getPointsLabel();
+
+        final DatabaseReference postref = database.getReference("posts").child(post.getMyPostID());
+
+        //Open comments activity
+        commentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailPostActivity.class);
+                intent.putExtra("id",post.getMyPostID());
+                intent.putExtra("name",post.getUserName());
+                intent.putExtra("body",post.getBody());
+                context.startActivity(intent);
+            }
+        });
+//        TODO: Add point logic here later for loyalty points
+        disagreeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Start state, neither selected
+//                if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+//                    setDisagree(true);
+//                }
+//                //Unselect Disagree
+//                else if(getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+//                    setDisagree(false);
+//                }
+//                //Swap Disagree and Agree selection, only one selected at a time.
+//                else {
+//                    setAgree(false);
+//                    setDisagree(true);
+//                }
+
+                postref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Post serverSidePost = dataSnapshot.getValue(Post.class);
+                        if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+                            setDisagree(true);
+                            serverSidePost.increaseDisagree();
+                        }
+                        //Unselect Disagree
+                        else if(getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+                            setDisagree(false);
+                            serverSidePost.decreaseDisagree();
+                        }
+                        //Swap Disagree and Agree selection, only one selected at a time.
+                        else {
+                            setAgree(false);
+                            setDisagree(true);
+                            serverSidePost.increaseDisagree();
+                            serverSidePost.decreaseAgree();
+                        }
+                        postref.child("disagree").setValue(serverSidePost.getDisagree());
+                        postref.child("agree").setValue(serverSidePost.getAgree());
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("Error updating disagree",databaseError.toString());
+                    }
+                });
+            }
+        });
+
+        agreeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+//                //Start state, neither selected
+//                if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+//                    setAgree(true);
+//                }
+//                //Unselect Agree
+//                else if(getAgreeSelectionValue()&& !getDisagreeSelectionValue()){
+//                    setAgree(false);
+//                }
+//                //Swap Disagree and Agree selection, only one selected at a time.
+//                else {
+//                    setDisagree(false);
+//                    setAgree(true);
+//                }
+
+                postref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Post serverSidePost = dataSnapshot.getValue(Post.class);
+                        //Start state, neither selected
+                        if( !getDisagreeSelectionValue() && !getAgreeSelectionValue()){
+                            setAgree(true);
+                            serverSidePost.increaseAgree();
+                        }
+                        //Unselect Agree
+                        else if(getAgreeSelectionValue()&& !getDisagreeSelectionValue()){
+                            setAgree(false);
+                            serverSidePost.decreaseAgree();
+                        }
+                        //Swap Disagree and Agree selection, only one selected at a time.
+                        else {
+                            setDisagree(false);
+                            setAgree(true);
+                            serverSidePost.increaseAgree();
+                            serverSidePost.decreaseDisagree();
+                        }
+                        postref.child("agree").setValue(serverSidePost.getAgree());
+                        postref.child("disagree").setValue(serverSidePost.getDisagree());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("Error updating agree",databaseError.toString());
+
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -160,5 +292,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostViewHolder>{
 
     public Post getPost(int position){
         return postList.get(position);
+    }
+
+    private void setDisagree(boolean value){
+        disagreeSelected = value;
+    }
+
+    private void setAgree(boolean value){
+        agreesSelected = value;
+    }
+
+    private boolean getDisagreeSelectionValue(){
+        return disagreeSelected;
+    }
+
+    private boolean getAgreeSelectionValue(){
+        return agreesSelected;
     }
 }

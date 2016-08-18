@@ -44,23 +44,23 @@ public class MainFeedFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main_feed, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.mainFeed);
-        mPostAdapter = new PostAdapter();
+        mPostAdapter = new PostAdapter(getContext());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mPostAdapter);
 
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Post post =  mPostAdapter.getPost(position);
-                Intent intent = new Intent(getContext(), DetailPostActivity.class);
-                intent.putExtra("id",post.getMyPostID());
-                intent.putExtra("name",post.getUserName());
-                intent.putExtra("body",post.getBody());
-                startActivity(intent);
-            }
-        }));
+//
+//        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                Post post =  mPostAdapter.getPost(position);
+//                Intent intent = new Intent(getContext(), DetailPostActivity.class);
+//                intent.putExtra("id",post.getMyPostID());
+//                intent.putExtra("name",post.getUserName());
+//                intent.putExtra("body",post.getBody());
+//                startActivity(intent);
+//            }
+//        }));
         return view;
     }
 

@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +27,10 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
     private TextView mSubject;
     private TextView mTime;
     private TextView mBody;
-    private TextView mPosts;
+    private TextView mPoints;
+    private Button mAgreeBtn;
+    private Button mDisagreeBtn;
+    private Button mCommentsBtn;
 
     public PostViewHolder(View cardView){
         super(cardView);
@@ -34,7 +39,10 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         mSubject = (TextView)cardView.findViewById(R.id.subject_title);
         mTime = (TextView)cardView.findViewById(R.id.time_text);
         mBody = (TextView)cardView.findViewById(R.id.subject_body);
-        mPosts = (TextView)cardView.findViewById(R.id.post_points);
+        mPoints = (TextView)cardView.findViewById(R.id.post_points);
+        mAgreeBtn = (Button)cardView.findViewById(R.id.agree_btn);
+        mDisagreeBtn = (Button)cardView.findViewById(R.id.disagree_btn);
+        mCommentsBtn = (Button)cardView.findViewById(R.id.comments_btn);
     }
 
     public void bindTopic(Post post){
@@ -46,4 +54,19 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 //        mPosts.setText(String.format("%s: %d | %s : %d","For",post.getAgree(),"Against",post.getDisagree()));
     }
 
+    public Button getAgreeButton(){
+        return mAgreeBtn;
+    }
+
+    public Button getCommentsButton(){
+        return mCommentsBtn;
+    }
+
+    public Button getDisagreeButton(){
+        return mDisagreeBtn;
+    }
+
+    public TextView getPointsLabel(){
+        return mPoints;
+    }
 }

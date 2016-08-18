@@ -139,11 +139,31 @@ public class Post {
         this.userName = userName;
     }
 
+    @Exclude
     public void increaseAgree(){
         agree++;
     }
+    @Exclude
     public void increaseDisagree(){
         disagree++;
+    }
+
+    @Exclude
+    public void decreaseAgree(){
+        if( agree - 1  > 0){
+            agree--;
+        }else{
+            agree = 0;
+        }
+    }
+
+    @Exclude
+    public void decreaseDisagree(){
+        if ( disagree - 1 > 0){
+            disagree--;
+        }else{
+            disagree = 0;
+        }
     }
 
     @Exclude
