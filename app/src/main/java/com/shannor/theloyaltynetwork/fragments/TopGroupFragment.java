@@ -1,36 +1,29 @@
 package com.shannor.theloyaltynetwork.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.mangers.GroupManager;
 import com.shannor.theloyaltynetwork.mangers.SessionManager;
-import com.shannor.theloyaltynetwork.model.Group;
 import com.shannor.theloyaltynetwork.views.GroupViewAdapter;
 
 
-public class GroupFragment extends Fragment {
+public class TopGroupFragment extends Fragment {
 
-    private GroupManager groupManager = GroupManager.getInstance();
     private static final String ARG_PARAM1 = "layoutID";
     private static final String ARG_PARAM2 = "recyclerViewID";
-    private static final String ARG_PARAM3 = "groupFragmentType";
     //Variables to hold LayoutID and RecyclerView ID
     private int mLayoutID;
     private int mRecyclerViewID;
-    private String mFragmentType;
     private SessionManager mSessionManager;
-    public GroupFragment() {
+    public TopGroupFragment() {
         // Required empty public constructor
     }
     /**
@@ -41,12 +34,11 @@ public class GroupFragment extends Fragment {
      * @param recyclerViewID Recycler View ID.
      * @return A new instance of fragment BlankFragment.
      */
-    public static GroupFragment newInstance(int layoutID, int recyclerViewID, String fragmentType) {
-        GroupFragment fragment = new GroupFragment();
+    public static TopGroupFragment newInstance(int layoutID, int recyclerViewID) {
+        TopGroupFragment fragment = new TopGroupFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, layoutID);
         args.putInt(ARG_PARAM2, recyclerViewID);
-        args.putString(ARG_PARAM3,fragmentType);
         fragment.setArguments(args);
 
         return fragment;
@@ -59,7 +51,6 @@ public class GroupFragment extends Fragment {
         if (getArguments() != null) {
             mLayoutID = getArguments().getInt(ARG_PARAM1);
             mRecyclerViewID = getArguments().getInt(ARG_PARAM2);
-            mFragmentType = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -72,17 +63,9 @@ public class GroupFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView)view.findViewById(mRecyclerViewID);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        If statement based on the Layout being worked on\
-//        TODO:Test out viewing groups may not work because using the same fragment!
-        GroupViewAdapter mAdapter = null;
-        if (mFragmentType.equals("TopGroups")){
-            mAdapter = new GroupViewAdapter(database.getReference("groups"));
-
-        }else if (mFragmentType.equals("MyGroups")){
-            mAdapter = new GroupViewAdapter(database.getReference("users").child(mSessionManager.getUid()).child("affiliations"));
-
-        }
+        //TODO:Pass in Query class to only pick top 15 groups, based on #mems + #points
+        GroupViewAdapter mAdapter = new GroupViewAdapter(FirebaseDatabase.getInstance().getReference("groups"));
+        //TODO:Implement the onclick to start new activity to view group in detail
         recyclerView.setAdapter(mAdapter);
 
         return view;

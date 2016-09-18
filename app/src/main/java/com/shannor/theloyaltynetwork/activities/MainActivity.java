@@ -36,6 +36,7 @@ import com.shannor.theloyaltynetwork.views.MainActivityFragmentAdapter;
 public class MainActivity extends AppCompatActivity {
 
     static final int CREATE_POST_REQUEST = 1;  // The request code for resultActivity
+    static final int CREATE_GROUP_REQUEST = 2;
 
     private FloatingActionButton fab;
     private SessionManager mSessionManager;
@@ -45,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //TODO: Add "Your Group" fragment to display all the current users Groups or Create one of their own
-    //TODO: When clicking on a card open up the discussion
-
-    //TODO:remove Entity Class
-
+    //TODO: Implement Tag system for/against
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_feed);
@@ -65,33 +63,46 @@ public class MainActivity extends AppCompatActivity {
         MainActivityFragmentAdapter mainActivityFragmentAdapter = new MainActivityFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mainActivityFragmentAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                initPost();
-            }
-        });
+        fab = (FloatingActionButton) findViewById(R.id.main_fab);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
+//            TODO:Change fab icon based on which fragment it is on
             /**
              * Method used to change out Fab buttons or remove it all together.
              * @param position which fragment currently on
              */
             @Override
             public void onPageSelected(int position) {
-//                if(position == 0){
-//                    fab.show();
-//                }else{
-//                    fab.hide();
-//                }
-                fab.hide();
+                switch (position){
+                    case 0:
+                        fab.show();
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initPost();
+                            }
+                        });
+                        break;
+                    case 1:
+                        fab.show();
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initGroup();
+                            }
+                        });
+                        break;
+                    case 2:
+                        fab.hide();
+                        break;
+                    default:
+                        fab.hide();
+                        break;
+                }
             }
 
             @Override
@@ -138,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent,CREATE_POST_REQUEST);
     }
 
+    public void initGroup(){
+        Intent intent = new Intent(this,CreateGroupActivity.class);
+        startActivityForResult(intent,CREATE_GROUP_REQUEST);
+    }
     /**
      * Method designed to get the result from the CreatePostActivity.
      * If OK, will update the List
@@ -148,14 +163,20 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        //Checks from different results from activities
         if (requestCode == CREATE_POST_REQUEST) {
+            //If post was created successfully
             if(resultCode == Activity.RESULT_OK){
 
+            }else if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
             }
-//            if (resultCode == Activity.RESULT_CANCELED) {
-//                //Write your code if there's no result
-//            }
+        }else if (requestCode == CREATE_GROUP_REQUEST){
+            if (resultCode == RESULT_OK){
+
+            }else if(resultCode == RESULT_CANCELED){
+
+            }
         }
     }
 

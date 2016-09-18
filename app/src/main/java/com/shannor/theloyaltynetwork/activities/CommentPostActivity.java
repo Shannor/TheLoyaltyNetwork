@@ -29,10 +29,15 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailPostActivity extends AppCompatActivity {
+public class CommentPostActivity extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private SessionManager mSessionManager;
+    private Button confirmButton;
+    private TextView userNameView;
+    private TextView bodyView;
+    private ListView commentsList;
+    private EditText replyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +47,11 @@ public class DetailPostActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView userNameView = (TextView)findViewById(R.id.detail_user_name);
-        TextView bodyView = (TextView) findViewById(R.id.detail_body);
-        ListView commentsList = (ListView)findViewById(R.id.detail_comments_list);
-        final EditText replyText = (EditText)findViewById(R.id.detail_write_comment);
-        Button confirmButton = (Button)findViewById(R.id.detail_send_comment);
+        userNameView = (TextView)findViewById(R.id.detail_user_name);
+        bodyView = (TextView) findViewById(R.id.detail_body);
+        commentsList = (ListView)findViewById(R.id.detail_comments_list);
+        replyText = (EditText)findViewById(R.id.detail_write_comment);
+        confirmButton = (Button)findViewById(R.id.detail_send_comment);
         mSessionManager = new SessionManager(this);
 
         Bundle bundle = getIntent().getExtras();

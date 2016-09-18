@@ -1,43 +1,45 @@
 package com.shannor.theloyaltynetwork.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shannor.theloyaltynetwork.R;
-import com.shannor.theloyaltynetwork.mangers.GroupManager;
+import com.shannor.theloyaltynetwork.mangers.SessionManager;
+import com.shannor.theloyaltynetwork.model.Group;
 import com.shannor.theloyaltynetwork.model.User;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateGroupActivity extends AppCompatActivity {
 
     private AlertDialog.Builder builder;
-    EditText groupName;
-    EditText groupMission;
-    GroupManager groupManager = GroupManager.getInstance();
+    private EditText groupName;
+    private EditText groupMission;
+    private SessionManager mSessionManager;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mSessionManager = new SessionManager(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         groupName = (EditText)findViewById(R.id.group_name_text);
@@ -57,7 +59,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_post, menu);
+        getMenuInflater().inflate(R.menu.menu_create_group, menu);
         return true;
     }
 
@@ -66,18 +68,46 @@ public class CreateGroupActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference groupRef = database.getReference("groups");
+        final DatabaseReference userRef = database.getReference("user");
         int id = item.getItemId();
 
-        if (id == R.id.action_post) {
+        if (id == R.id.action_create) {
             //Set Alert Box to show information
             AlertDialog dialog = builder.create();
+            final String name = groupName.getText().toString();
+            final String mission = groupMission.getText().toString();
             //Error check to make sure nothing is empty
-            if (groupName.getText().toString().isEmpty() || groupMission.getText().toString().isEmpty()){
+            if (name.isEmpty() || mission.isEmpty()){
                 dialog.show();
             }else {
-                //TODO: Add current user functionality
-                //Add new Group to the list
-//                groupManager.addContent();
+                userRef.child(mSessionManager.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User user = dataSnapshot.getValue(User.class);
+                        String key = groupRef.push().getKey();
+                        Group group = new Group(mSessionManager.getUid(), name, mission);
+                        group.setGroupID(key);
+                        //If first group they are apart of
+                        if(user.getAffiliations().isEmpty()){
+                            user.setAffiliations(new ArrayList<String>());
+                        }else{
+                            user.addAffiliation(name);
+                        }
+                        //Updates Atomically
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        childUpdates.put("/groups/" + key, group.toMap());
+                        childUpdates.put("/users/" + mSessionManager.getUid() + "/" , user.toMap());
+                        database.getReference().updateChildren(childUpdates);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.d("Group Creation Error",databaseError.toString());
+                    }
+                });
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         }
